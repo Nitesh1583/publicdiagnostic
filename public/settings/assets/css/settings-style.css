@@ -1,0 +1,214 @@
+:root {
+            /*--primary-red: #e53935;*/
+            --primary-teal: #20C997;
+            --teal-dark: #047857;
+            --bg-light: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --border: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* BACK BUTTON - TOP LEFT */
+        .back-btn {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 101;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .back-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* PROFILE - CENTERED & COMPACT HEIGHT */
+        .settings_profile {
+            background: var(--card-bg);
+            text-align: center;
+            padding: 28px 32px; /* Reduced height */
+            margin: 32px auto;
+            max-width: 500px; /* Center constraint */
+            box-shadow: var(--shadow);
+            border-radius: 24px;
+            border: 1px solid rgba(32, 201, 151, 0.2);
+            /*position: relative;*/
+            overflow: hidden;
+        }
+
+        .settings_profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-teal), var(--primary-red));
+        }
+
+        .profile-img-placeholder {
+            width: 90px; /* Smaller */
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 16px; /* Less margin */
+            background: linear-gradient(135deg, var(--primary-teal), var(--teal-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.3rem; /* Smaller text */
+            text-transform: uppercase;
+            box-shadow: 0 15px 30px rgba(32, 201, 151, 0.4);
+            border: 4px solid rgba(255,255,255,0.9);
+        }
+
+        .settings_profile h3 {
+            font-size: 1.4rem; /* Slightly smaller */
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-dark), #334155);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .settings_profile a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-teal);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 10px 24px; /* Smaller padding */
+            border: 2px solid var(--primary-teal);
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .settings_profile a:hover {
+            background: var(--primary-teal);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* SECTIONS - SAME VIBRANT STYLES */
+        .settings_section {
+            background: var(--card-bg);
+            margin-bottom: 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(32, 201, 151, 0.15);
+        }
+
+        .settings_section-title {
+            background: linear-gradient(135deg, var(--primary-teal), var(--teal-dark));
+            color: white;
+            padding: 18px 28px; /* Slightly smaller */
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .settings_list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px; /* Slightly smaller */
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .settings_list-item:hover {
+            background: linear-gradient(90deg, rgba(32, 201, 151, 0.08), rgba(32, 201, 151, 0.04));
+            padding-left: 36px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 20px;
+                left: 20px;
+                padding: 10px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .settings_header {
+                margin-top: 70px;
+            }
+            
+            .settings_profile {
+                padding: 24px 20px;
+                margin: 20px auto;
+                max-width: 90%;
+            }
+        }
+
+ .avatar-wrapper {
+            position: relative;
+        }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            border: 3px solid rgba(255,255,255,0.9);
+            object-fit: cover;
+            background: #e5e7eb;
+        }
+        .avatar-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #22c55e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 2px solid white;
+            font-size: 0.9rem;
+        }

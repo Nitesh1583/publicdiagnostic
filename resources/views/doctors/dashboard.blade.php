@@ -140,7 +140,7 @@
                     <p>Quick Bill</p>
                   </div>
                 </a>
-                <a href="settings.html">
+                <a href="{{ route('doctors.settings') }}">
                   <div class="services-items-card">
                     <img src="{{ asset('doctors/assets/images/parental-control.png') }} " alt="Settings" />
                     <p>Settings</p>

@@ -5,10 +5,14 @@ use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+
 use App\Http\Controllers\Doctors\DoctorsAuthController;
 use App\Http\Controllers\Doctors\DoctorsDashboardController;
 use App\Http\Controllers\Doctors\DoctorsProfileController;
+use App\Http\Controllers\Doctors\SettingsController;
+
 use App\Http\Controllers\Patient\PatientController;
+
 use App\Http\Controllers\Appointment\AppointmentController;
 
 
@@ -109,6 +113,9 @@ Route::prefix('clinic/doctors')->group(function () {
         Route::get('/appointments/{appointment}/edit', [AppointmentController::class, 'edit'])->name('doctors.appointments.edit');
         
         Route::patch('/appointments/{appointment}', [AppointmentController::class, 'update'])->name('doctors.appointments.update');
+
+
+        Route::get('/settings', [SettingsController::class, 'index'])->name('doctors.settings');
 
     });
 });
