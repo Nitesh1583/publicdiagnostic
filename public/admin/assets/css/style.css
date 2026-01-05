@@ -1,0 +1,521 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f7fb;
+}
+
+/* <================ ADMIN LOGIN PAGE CSS STARTS HERE ===================> */
+.wrapper {
+    width: 100%;
+    max-width: 960px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+    display: flex;
+    overflow: hidden;
+}
+
+.left,
+.right {
+    width: 50%;
+    padding: 60px 55px;
+}
+
+.left {
+    background: #ffffff;
+}
+
+.right {
+    background: linear-gradient(135deg, #6c63ff, #9b4dff);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+h2.title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.form-input {
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background: #f5f5f7;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #555;
+    outline: none;
+}
+
+.form-input:focus {
+    box-shadow: 0 0 0 2px rgba(108,99,255,0.25);
+}
+
+.form-group {
+    margin-bottom: 18px;
+    text-align: left;          
+}
+
+.form-group .forgot-link {
+    display: block;            
+    font-size: 13px;
+    color: #6c63ff;
+    text-decoration: none;
+    margin-top: 6px;           
+}
+
+.password-group .forgot-link { text-align: right; }
+
+.actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;   
+    gap: 16px;                
+    margin-top: 12px;
+}
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    padding: 14px 0;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #6c63ff, #a24dfc);
+    box-shadow: 0 13px 25px rgba(108,99,255,0.5);
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(108,99,255,0.55);
+}
+
+.right {
+    position: relative;
+    width: 50%;
+    padding: 40px 45px;
+    color: #ffffff;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+/* dark gradient overlay to keep text readable */
+.right::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(22,22,46,0.75), rgba(60,38,123,0.35));
+}
+
+/* text wrapper */
+.overlay-text {
+    position: relative;
+    max-width: 100%;
+}
+
+.overlay-text h3 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.overlay-text p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .wrapper {
+        flex-direction: column;
+        max-width: 480px;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+        padding: 40px 30px;
+    }
+
+    .right {
+        align-items: center;
+        text-align: center;
+    }
+
+    .right p {
+        max-width: none;
+    }
+}
+
+/* <================ ADMIN LOGIN PAGE CSS ENDS HERE ===================> */
+
+
+/* <================== ADMIN DASHBOARD PAGE CSS STARTS HERE ===============> */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    padding: 20px 18px;
+    background: #ffffff;
+    border-right: 1px solid #e4e7f2;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.logo-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #ffeff0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff4b61;
+    font-size: 18px;
+}
+
+.logo-text {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.help-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: none;
+    background: #ffe9f0;
+    color: #e11d48;
+    font-size: 13px;
+    margin-bottom: 22px;
+    cursor: pointer;
+}
+
+.menu-group {
+    margin-bottom: 28px;
+}
+
+.menu-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca5c9;
+    margin-bottom: 8px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    border-radius: 10px;
+    padding: 0 10px;
+    gap: 10px;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.menu-item.active {
+    background: #f0f5ff;
+    color: #2563eb;
+}
+
+.menu-pill {
+    margin-left: auto;
+    background: #2563eb;
+    color: #fff;
+    font-size: 11px;
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+.menu-item-logout {
+    margin-top: 8px;
+    color: #ef4444;
+}
+
+.menu-item-logout .menu-icon {
+    color: #ef4444;
+}
+
+.menu-item-logout:hover {
+    background: #fef2f2;
+}
+
+.promo-card {
+    margin-top: auto;
+    border-radius: 18px;
+    padding: 10px 12px;
+    background: linear-gradient(140deg,#e0f2fe,#eff6ff);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* MAIN */
+
+.main {
+    flex: 1;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* TOPBAR */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 5px 10px rgba(15,23,42,0.05);
+    cursor: pointer;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 0 12px;
+    height: 38px;
+    min-width: 260px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    margin-left: 6px;
+    font-size: 13px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f9fafb;
+    border-radius: 999px;
+    padding: 4px 10px 4px 4px;
+    text-decoration: none;
+}
+
+.user-chip img {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.user-role {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(160px, auto);
+    gap: 16px;
+}
+
+/* Cards */
+
+.card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 16px 18px;
+    box-shadow: 0 8px 20px rgba(15,23,42,0.04);
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #e0f2fe;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.big-card {
+    grid-column: span 2;
+}
+
+.side-card {
+    grid-row: span 2;
+}
+
+/* lists */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.revenue-amount .main {
+    font-size: 22px;
+    font-weight: 600;
+    color: #16a34a;
+}
+
+.revenue-amount .sub {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-left: 6px;
+}
+
+.list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.list-sub {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.appointment-list {
+    list-style: none;
+    margin-top: 12px;
+}
+
+.appointment-list li {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.appointment-list .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e0f2fe;
+}
+
+.appointment-list .desc {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.appointment-list .meta {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* responsive */
+
+@media (max-width: 1200px) {
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .app {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        height: 70px;
+    }
+    .main {
+        padding: 14px;
+    }
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* <================== ADMIN DASHBOARD PAGE CSS ENDS HERE ===============> */

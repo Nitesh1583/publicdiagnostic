@@ -1,0 +1,131 @@
+:root {
+        --primary-red: #dc3545; 
+        --success-green: #28a745;
+}
+body {
+        font-family: 'Poppins', sans-serif; 
+        /*background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+}
+        .add-patient-container {
+                max-width: 900px;
+                margin: 2rem auto;
+                padding: 0 1rem;
+          }
+        .patient-card {
+                background: white; 
+                border-radius: 20px; 
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+                overflow: hidden;
+        }
+        .header-section {
+                background: linear-gradient(135deg, var(--primary-red), #c82333); 
+                color: white;
+                padding: 2rem; 
+                text-align: center;
+        }
+        .form-section {
+                padding: 2.5rem;
+        }
+        .section-title {
+                color: #374151; 
+                margin-bottom: 1.5rem;
+                font-size: 1.3rem; 
+                font-weight: 600;
+        }
+        .form-row {
+                display: grid; 
+                grid-template-columns: 1fr 1fr; 
+                gap: 1.5rem; 
+                margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+                position: relative;
+        }
+        .form-group label {
+                display: block; 
+                margin-bottom: 0.5rem; 
+                font-weight: 500; 
+                color: #495057;
+                margin-top: 12px;
+        }
+        .form-control {
+                width: 100%; 
+                padding: 12px 16px; 
+                border: 2px solid #e9ecef; 
+                border-radius: 10px; 
+                font-size: 1rem; 
+                transition: all 0.3s;
+        }
+        .form-control:focus {
+                border-color: var(--primary-red); 
+                box-shadow: 0 0 0 0.2rem rgba(220,53,69,0.25);
+        }
+        .clinic-select {
+                background: #f8f9fa; 
+                border: 2px dashed #dee2e6;
+        }
+        .section-divider {
+                border-top: 2px solid #e9ecef; 
+                margin: 2rem 0; 
+                position: relative;
+        }
+        .section-divider::before {
+                content: 'Add Information'; 
+                background: white; padding: 0 1rem; 
+                color: var(--primary-red); 
+                font-weight: 600; 
+                position: absolute; 
+                top: -12px; 
+                left: 50%; 
+                transform: translateX(-50%);
+        }
+        
+        .checkbox-grid {
+                display: grid; 
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+                gap: 1rem;}
+        
+        .form-check {
+                display: flex; 
+                align-items: center; 
+                margin-bottom: 0.5rem;
+                gap:10px;
+        }
+        .form-check-input:checked {
+                background-color: var(--primary-red); 
+                border-color: var(--primary-red);
+        }
+        .btn-submit {
+                background: linear-gradient(135deg, var(--primary-red), #c82333); 
+                border: none; 
+                color: white; 
+                padding: 15px 40px; 
+                border-radius: 12px;
+                font-size: 1.1rem; 
+                font-weight: 600; 
+                width: 100%; 
+                margin-top: 2rem;
+         }
+        .btn-submit:hover {
+                transform: translateY(-2px); 
+                box-shadow: 0 10px 30px rgba(220,53,69,0.4);
+        }
+        @media (max-width: 768px) {
+                .form-row {
+                        grid-template-columns: 1fr;
+                }
+        }
+
+        .accordion-button { 
+                font-weight: 500; 
+        }
+        .accordion-button:not(.collapsed) {
+                /*background-color: #0d6efd; */
+                background: linear-gradient(135deg, var(--primary-red), #c82333);
+                color: white; 
+        }
+        .accordion-button:focus { 
+                box-shadow: none; 
+        }
+        
