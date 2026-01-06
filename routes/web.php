@@ -12,6 +12,7 @@ use App\Http\Controllers\Doctors\DoctorsProfileController;
 use App\Http\Controllers\Doctors\SettingsController;
 
 use App\Http\Controllers\Patient\PatientController;
+use App\Http\Controllers\Clinic\ClinicsController;
 
 use App\Http\Controllers\Appointment\AppointmentController;
 
@@ -117,5 +118,6 @@ Route::prefix('clinic/doctors')->group(function () {
 
         Route::get('/settings', [SettingsController::class, 'index'])->name('doctors.settings');
 
+        Route::get('/clinics', [ClinicsController::class, 'index'])->name('doctor.clinics.index');
     });
 });

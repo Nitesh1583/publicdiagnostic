@@ -50,10 +50,12 @@
             <section class="settings_section container">
                 <div class="settings_section-title">General Settings</div>
                 <ul class="settings_list">
-                    <li class="settings_list-item">
-                        <span>Clinics</span>
-                        <i data-lucide="chevron-right"></i>
-                    </li>
+                    <a href="{{ route('doctor.clinics.index') }}">
+                        <li class="settings_list-item">
+                            <span>Clinics</span>
+                            <i data-lucide="chevron-right"></i>
+                        </li> 
+                    </a>
                     <li class="settings_list-item">
                         <span>Online Payment</span>
                         <i data-lucide="chevron-right"></i>

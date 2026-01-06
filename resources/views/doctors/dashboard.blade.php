@@ -435,8 +435,5 @@
     
     <script src="{{ asset('doctors/assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('doctors/assets/js/clinicScript.js') }}"></script>
-    <script>
-     
-    </script>
   </body>
 </html>

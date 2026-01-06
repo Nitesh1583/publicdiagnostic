@@ -9,5 +9,11 @@ use App\Models\Doctors;
 
 class ClinicsController extends Controller
 {
-    //
+    public function index()
+    {
+        $doctor = auth('doctors')->user();
+
+        return view('doctors.clinics.index', compact('doctor'));
+    }
+
 }
