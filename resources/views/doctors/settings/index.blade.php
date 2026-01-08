@@ -50,7 +50,7 @@
             <section class="settings_section container">
                 <div class="settings_section-title">General Settings</div>
                 <ul class="settings_list">
-                    <a href="{{ route('doctor.clinics.index') }}">
+                    <a href="{{ route('doctors.clinics.index') }}">
                         <li class="settings_list-item">
                             <span>Clinics</span>
                             <i data-lucide="chevron-right"></i>

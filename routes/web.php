@@ -118,6 +118,19 @@ Route::prefix('clinic/doctors')->group(function () {
 
         Route::get('/settings', [SettingsController::class, 'index'])->name('doctors.settings');
 
-        Route::get('/clinics', [ClinicsController::class, 'index'])->name('doctor.clinics.index');
+        Route::get('/clinics', [ClinicsController::class, 'index'])->name('doctors.clinics.index');
+
+        // Step-by-step tab saving
+        Route::post('/clinics/address', [ClinicsController::class, 'saveAddress'])->name('clinics.address.save');
+        Route::post('/clinics/timing', [ClinicsController::class, 'saveTiming'])->name('clinics.timing.save');
+        Route::post('/clinics/setup', [ClinicsController::class, 'saveSetup'])->name('clinics.setup.save');
+        Route::post('/clinics/picture', [ClinicsController::class, 'savePicture'])->name('clinics.picture.save');
+        Route::post('/clinics/services', [ClinicsController::class, 'saveServices'])->name('clinics.services.save');
+        Route::get('/clinics/create', [ClinicsController::class, 'create'])->name('clinics.create');
+
+    //     // Multi-step tab saving
+    // Route::post('/clinics/step/{step}', [ClinicsController::class, 'saveStep'])->name('clinics.step');
+    // Route::get('/clinics/create', [ClinicsController::class, 'create'])->name('clinics.create');
+
     });
 });

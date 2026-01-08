@@ -7,13 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('settings/assets/css/clinics-add-style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <a href="{{ route('doctor.clinics.index') }}" class="back-btn">
+                <a href="{{ route('doctors.clinics.index') }}" class="back-btn">
                     <i class="fas fa-arrow-left"></i> Back
                 </a>
             </div>
@@ -22,16 +24,17 @@
         <!-- Tabs -->
         <div class="tabs-container">
             <div class="tabs-header">
-                <button class="tab-btn active" data-tab="address">Address</button>
-                <button class="tab-btn" data-tab="timing">Timing</button>
-                <button class="tab-btn" data-tab="setup">Setup</button>
-                <button class="tab-btn" data-tab="picture">Picture</button>
-                <button class="tab-btn" data-tab="services">Services</button>
+                <button class="tab-btn {{ request()->query('tab') == null ? 'active' : '' }}" data-tab="address">Address</button>
+                <button class="tab-btn {{ request()->query('tab') == 'timing' ? 'active' : '' }}" data-tab="timing">Timing</button>
+                <button class="tab-btn {{ request()->query('tab') == 'setup' ? 'active' : '' }}" data-tab="setup">Setup</button>
+                <button class="tab-btn {{ request()->query('tab') == 'picture' ? 'active' : '' }}" data-tab="picture">Picture</button>
+                <button class="tab-btn {{ request()->query('tab') == 'services' ? 'active' : '' }}" data-tab="services">Services</button>
             </div>
 
             <!-- Address Tab -->
-            <div id="address" class="tab-content active">
-                <form id="addressForm">
+            <div id="address" class="tab-content {{ request()->query('tab') == null ? 'active' : '' }}">
+                <form id="addressForm" action="{{ route('clinics.address.save') }}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label class="form-label">Clinic Name</label>
                         <input type="text" class="form-control" name="clinic_name" value="" required>
@@ -69,108 +72,243 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">City</label>
-                            <select class="form-control" name="city">
-                                <option value="">Select City</option>
-                                <option value="Jalandhar" >Jalandhar</option>
-                            </select>
+                            <input type="text" class="form-control" name="city" value="">
                         </div>
                         <div class="form-group">
                             <label class="form-label">State</label>
-                            <select class="form-control" name="state">
-                                <option value="">Select State</option>
-                                <option value="Punjab" >Punjab</option>
-                            </select>
+                            <input type="text" class="form-control" name="state" value="">
                         </div>
                     </div>
-                    <button type="submit" class="save-btn">Save</button>
+                    <button type="submit" class="save-btn" >Save</button>
+
                 </form>
             </div>
 
             <!-- Timing Tab -->
-            <div id="timing" class="tab-content">
-                <form id="timingForm">
-                    <div class="form-group mb-4">
-                        <label class="form-label">Clinic</label>
-                        <div style="padding: 12px 16px; background: var(--bg-light); border-radius: 12px; border: 1px solid var(--border);">
-                            <strong>KD Test</strong> 
-                            
-                        </div>
-                        <span class="text-muted ms-2">Location: Jalandhar</span>
-                    </div>
+<div id="timing" class="tab-content {{ request()->query('tab') == 'timing' ? 'active' : '' }}">
+    <form id="timingForm" action="{{ route('clinics.timing.save') }}" method="POST">
+        @csrf
+        <!-- Clinic Info -->
+        <div class="form-group mb-4">
+            <label class="form-label">Clinic</label>
+            <div style="padding: 12px 16px; background: var(--bg-light); border-radius: 12px; border: 1px solid var(--border);">
+                <strong>{{ session('latest_clinic.clinic_name') ?? 'New Clinic' }}</strong>
+            </div>
+            <span class="text-muted ms-2">
+                @if(session('latest_clinic'))
+                    Location:{{ session('latest_clinic.city') }}
+                @else
+                    Location: Not set yet
+                @endif
+            </span>
+        </div>
 
-                    <div class="form-group mb-4">
-                        <label class="form-label">
-                            <input type="checkbox" id="defaultClinic" class="me-2" style="transform: scale(1.2);"> 
-                            Mark as default
-                        </label>
-                    </div>
+        <!-- Default Checkbox -->
+        <div class="form-group mb-4">
+            <label class="form-label">
+                <input type="checkbox" id="defaultClinic" name="is_default" class="me-2" style="transform: scale(1.2);"> 
+                Mark as default
+            </label>
+        </div>
 
-                    <div class="form-group mb-4">
-                        <label class="form-label">Doctor</label>
-                        <div style="padding: 12px 16px; background: var(--bg-light); border-radius: 12px; border: 1px solid var(--primary-teal); border-left: 4px solid var(--primary-teal);">
-                            <strong>Doctor Name</strong>
-                        </div>
-                    </div>
+        <!-- Doctor Info -->
+        <div class="form-group mb-4">
+            <label class="form-label">Doctor</label>
+            <div style="padding: 12px 16px; background: var(--bg-light); border-radius: 12px; border: 1px solid var(--primary-teal); border-left: 4px solid var(--primary-teal);">
+                <strong>{{  Auth::guard('doctors')->user()->doctor_name  }}</strong>
+            </div>
+        </div>
 
-                    <div class="form-group mb-4">
-                        <label class="form-label">Consultation Fees</label>
-                        <input type="text" class="form-control" name="consultation_fees" value="" placeholder="₹500">
-                    </div>
+        <!-- Consultation Fees -->
+        <div class="form-group mb-4">
+            <label class="form-label">Consultation Fees</label>
+            <input type="text" class="form-control" name="consultation_fees" value="" placeholder="₹500">
+        </div>
 
-                    <h5 class="mb-3" style="color: var(--text-dark);">Timing Slots</h5>
-                    <div class="timing-grid">
-                        <div class="day-slot">
-                            <div class="day-name">Mon</div>
-                            <button class="slot-btn" onclick="openSlotModal('Mon', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Mon', 2)">Slot 2</button>
-                        </div>
-                        <div class="day-slot">
-                            <div class="day-name">Tue</div>
-                            <button class="slot-btn" onclick="openSlotModal('Tue', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Tue', 2)">Slot 2</button>
-                        </div>
-                        <div class="day-slot">
-                            <div class="day-name">Wed</div>
-                            <button class="slot-btn" onclick="openSlotModal('Wed', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Wed', 2)">Slot 2</button>
-                        </div>
-                        <div class="day-slot">
-                            <div class="day-name">Thu</div>
-                            <button class="slot-btn" onclick="openSlotModal('Thu', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Thu', 2)">Slot 2</button>
-                        </div>
-                        <div class="day-slot">
-                            <div class="day-name">Fri</div>
-                            <button class="slot-btn" onclick="openSlotModal('Fri', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Fri', 2)">Slot 2</button>
-                        </div>
-                        <div class="day-slot">
-                            <div class="day-name">Sat</div>
-                            <button class="slot-btn" onclick="openSlotModal('Sat', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Sat', 2)">Slot 2</button>
-                        </div>
-                        <div class="day-slot">
-                            <div class="day-name">Sun</div>
-                            <button class="slot-btn" onclick="openSlotModal('Sun', 1)">Slot 1</button>
-                            <button class="slot-btn" onclick="openSlotModal('Sun', 2)">Slot 2</button>
-                        </div>
-                    </div>
-                    <button type="submit" class="save-btn">Save</button>
-                </form>
+        <!-- Timing Slots Title -->
+        <h5 class="mb-3" style="color: var(--text-dark);">Timing Slots</h5>
+
+        <!-- Timing Slots Title + Summary -->
+        <div class="slot-summary mb-3" id="slotSummary">
+            <div class="summary-badge" id="activeSlotBadge" style="display: none;">
+                <i class="fas fa-check-circle me-1"></i>
+                <span id="activeSlotText"></span>
+            </div>
+        </div>
+
+        
+        <!-- IMPROVED TIMING GRID - Matches Image 1 exactly -->
+        <div class="timing-grid">
+            <div class="day-slot" data-day="Mon">
+                <div class="day-name">Mon</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Mon', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Mon-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Mon', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Mon-2"></div>
+                </button>
             </div>
 
+            <div class="day-slot" data-day="Tue">
+                <div class="day-name">Tue</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Tue', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Tue-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Tue', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Tue-2"></div>
+                </button>
+            </div>
+
+            <div class="day-slot" data-day="Wed">
+                <div class="day-name">Wed</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Wed', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Wed-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Wed', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Wed-2"></div>
+                </button>
+            </div>
+
+            <div class="day-slot" data-day="Thu">
+                <div class="day-name">Thu</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Thu', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Thu-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Thu', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Thu-2"></div>
+                </button>
+            </div>
+
+            <div class="day-slot" data-day="Fri">
+                <div class="day-name">Fri</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Fri', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Fri-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Fri', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Fri-2"></div>
+                </button>
+            </div>
+
+            <div class="day-slot" data-day="Sat">
+                <div class="day-name">Sat</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sat', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Sat-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sat', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Sat-2"></div>
+                </button>
+            </div>
+
+            <div class="day-slot" data-day="Sun">
+                <div class="day-name">Sun</div>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sun', 1)" data-slot="1">
+                        <span class="slot-label">Slot 1</span>
+                        <div class="slot-time" data-slot-key="Sun-1"></div>
+                    </button>
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sun', 2)" data-slot="2">
+                        <span class="slot-label">Slot 2</span>
+                        <div class="slot-time" data-slot-key="Sun-2"></div>
+                </button>
+            </div>
+        </div>
+        <button type="submit" class="save-btn">Save</button>
+    </form>
+</div>
+
+<!-- NEW SLOT MODAL - EXACTLY LIKE IMAGES 2 & 3 -->
+<div id="slotModal" class="modal-overlay">
+    <div class="modal">
+        <!-- Modal Header - Matches Image 2 -->
+        <div class="modal-header">
+            <div class="modal-title-container">
+                <h3 class="modal-title" id="modalTitle">Sahil Kumar for Slot 1</h3>
+                <span class="modal-subtitle">Select days</span>
+            </div>
+            <button class="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Modal Body - Matches Image 3 exactly -->
+        <form id="slotForm">
+            <!-- Days Selection - 2 rows exactly like image -->
+            <div class="day-selector">
+                <div class="day-row">
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Mon"> Mon
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Tue"> Tue
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Wed"> Wed
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Thu"> Thu
+                    </label>
+                </div>
+                <div class="day-row">
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Fri"> Fri
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Sat"> Sat
+                    </label>
+                    <label class="day-checkbox">
+                        <input type="checkbox" name="days[]" value="Sun"> Sun
+                    </label>
+                </div>
+            </div>
+
+            <!-- Time Selection -->
+            <div class="form-group">
+                <label class="form-label">From time</label>
+                <input type="time" class="form-control" name="from_time" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">To time</label>
+                <input type="time" class="form-control" name="to_time" required>
+            </div>
+
+            <!-- Action Buttons - Exactly like image 3 -->
+            <div class="modal-actions">
+                <button type="button" class="btn-delete" onclick="deleteSlot()">
+                    <i class="fas fa-trash me-1"></i>Delete
+                </button>
+                <button type="button" class="save-btn" onclick="saveSlot()">
+                    <i class="fas fa-plus me-1"></i>Add
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
             <!-- Setup Tab -->
-            <div id="setup" class="tab-content">
-                <form id="setupForm">
+            <div id="setup" class="tab-content {{ request()->query('tab') == 'setup' ? 'active' : '' }}">
+                <form id="setupForm" action="{{ route('clinics.setup.save') }}" method="POST">
+                    @csrf
                     <!-- Primary Doctor Dropdown -->
                     <div class="form-group mb-4">
                         <label class="form-label">Primary Doctor 
                             <!-- <i class="fas fa-chevron-down ms-1" style="font-size: 0.8rem; opacity: 0.6;"></i> -->
                         </label>
                         <select class="form-control" name="primary_doctor">
-                            <option selected>Sahil Kumar</option>
-                            <option>Dr. John Doe</option>
-                            <option>Dr. Jane Smith</option>
+                            <option value="" selected>Sahil Kumar</option>
+                            <option value="">Dr. John Doe</option>
+                            <option value="">Dr. Jane Smith</option>
                         </select>
                     </div>
 
@@ -192,42 +330,44 @@
                                     <label class="form-label">Tax Registration No:</label>
                                     <div class="d-flex align-items-center">
                                         <!-- <i class="fas fa-circle text-danger me-2"></i> -->
-                                        <input type="text" class="form-control" placeholder="Tax Registration">
+                                        <input type="text" class="form-control" placeholder="Tax Registration" name="tax_registration_no" value="">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">Bill No. Prefix</label>
-                                        <input type="text" class="form-control" placeholder="(e.g. 2019-00)">
+                                        <input type="text" class="form-control" placeholder="(e.g. 2019-00)" name="bill_no_prefix" value="">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Bill No. (e.g. 2019-00-001)</label>
-                                        <input type="text" class="form-control" placeholder="2019-00-001">
+                                        <input type="text" class="form-control" placeholder="2019-00-001" name="bill_no" value="">
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">No. of Days for Remarks</label>
-                                        <input type="text" class="form-control" value="">
+                                        <input type="text" class="form-control" name="number_days_remarks" value="">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">No. of Days for Invoice Due</label>
-                                        <input type="text" class="form-control" value="">
+                                        <input type="text" class="form-control" name="number_days_invioce_due" value="">
                                     </div>
                                 </div>
                                 
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">Bank Name</label>
-                                        <input type="text" class="form-control" value="">
+                                        <input type="text" class="form-control" name="bank_name" 
+                                        value="">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Bank Account no</label>
-                                        <input type="text" class="form-control" value="">
+                                        <input type="text" class="form-control" name="bank_account_no" value="">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Bank IFSC Code</label>
-                                        <input type="text" class="form-control" value="">
+                                        <input type="text" class="form-control" name="bank_ifsc" 
+                                        value="">
                                     </div>
                                 </div>
                             </div>
@@ -315,29 +455,29 @@
                             </div>
                             <div id="patient" class="faq-content" style="display: none;">
                                 <div class="form-row">
-                                    <div class="form-group">
-                                        <input type="checkbox" class="form-control" style="height: auto; width: auto; margin-top: 0;">
+                                    <div class="form-group d-flex ">
+                                        <input type="checkbox" class="form-control" name="visiting_dct_name_sms" style="height: auto; width: auto; margin-top: 0;">
                                         <label class="form-label">Include Visiting Doctor name if selected in SMS</label>
                                         
                                     </div>
-                                    <div class="form-group">
-                                        <input type="checkbox" class="form-control" style="height: auto; width: auto; margin-top: 0;">
+                                    <div class="form-group d-flex ">
+                                        <input type="checkbox" class="form-control" name="patient_name_visiting_doctor"style="height: auto; width: auto; margin-top: 0;">
                                         <label class="form-label">Include Patient name in Visiting Doctor</label>
                                     </div>
 
-                                    <div class="form-group">
-                                        <input type="checkbox" class="form-control" style="height: auto; width: auto; margin-top: 0;">
+                                    <div class="form-group d-flex ">
+                                        <input type="checkbox" class="form-control" name="auto_gen_patient" style="height: auto; width: auto; margin-top: 0;">
                                         <label class="form-label">Auto generate Patient</label>
                                     </div>
                                     
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Prefix</label>
-                                    <input type="text" class="form-control" value="C">
+                                    <input type="text" class="form-control" name="auto_gen_patient_prefix" value="">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Next Seq. No.</label>
-                                    <input type="number" class="form-control" value="1">
+                                    <input type="text" class="form-control" name="auto_gen_patient_seq_no" value="">
                                 </div>
                             </div>
                         </div>
@@ -355,17 +495,17 @@
                                 </div>
                                 <h4>Consent Forms</h4> <br>
                                 <div class="form-group mb-3">
-                                    <input type="radio" name="consent_default" class="me-2">
+                                    <input type="radio" name="consent_clinic_default" class="me-2">
                                     <label class="form-label">Clinic Default</label>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input type="radio" name="consent_default" class="me-2">
+                                    <input type="radio" name="consent_covid_19" class="me-2">
                                     <label class="form-label">COVID-19 Consent</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button class="save-btn mt-4" onclick="saveSetupData()">Save</button>
+                   <button type="submit" class="save-btn mt-4">Save</button>
                 </form>
 
                 
@@ -373,12 +513,13 @@
 
 
             <!-- Picture Tab -->
-            <div id="picture" class="tab-content">
-                <form id="pictureForm">
+            <div id="picture" class="tab-content {{ request()->query('tab') == 'picture' ? 'active' : '' }}">
+                <form id="pictureForm" action="{{ route('clinics.picture.save') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <h5 class="mb-4" style="color: var(--text-dark);">Clinic Picture</h5>
                     <div class="form-group">
                         <label class="form-label">Upload Clinic Image</label>
-                        <input type="file" class="form-control" accept="image/*">
+                        <input type="file" class="form-control" name="upload_picture" accept="image/*">
                     </div>
                     <div style="border: 2px dashed var(--border); border-radius: 12px; padding: 40px; text-align: center; margin-top: 20px;">
                         <i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>
@@ -389,12 +530,13 @@
             </div>
 
             <!-- Services Tab -->
-            <div id="services" class="tab-content">
-                <form id="pictureForm">
+            <div id="services" class="tab-content {{ request()->query('tab') == 'services' ? 'active' : '' }}">
+                <form id="servicesForm" action="{{ route('clinics.services.save') }}" method="POST" >
+                    @csrf
                     <h5 class="mb-4" style="color: var(--text-dark);">Services Offered</h5>
                     <div class="form-group">
                         <label class="form-label">Add Service</label>
-                        <input type="text" class="form-control" placeholder="General Consultation">
+                        <input type="text" class="form-control" name="add_services" value ="" placeholder="General Consultation">
                     </div>
                     <div style="background: var(--bg-light); border-radius: 12px; padding: 20px; margin-top: 16px;">
                         <p style="color: var(--text-muted);">No services added yet</p>
@@ -402,56 +544,12 @@
                     <button type="submit" class="save-btn">Save</button>
                 </form>
             </div>
+
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
         </div>
-    </div>
 
-    <!-- Slot Modal Popup -->
-    <div id="slotModal" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Add Slot</h3>
-                <button class="close-modal" onclick="closeSlotModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <form id="slotForm">
-                <div class="day-selector">
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Mon"> Mon
-                    </label>
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Tue"> Tue
-                    </label>
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Wed"> Wed
-                    </label>
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Thu"> Thu
-                    </label>
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Fri"> Fri
-                    </label>
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Sat"> Sat
-                    </label>
-                    <label class="day-checkbox">
-                        <input type="checkbox" name="days[]" value="Sun"> Sun
-                    </label>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">From Time</label>
-                    <input type="time" class="form-control" name="from_time" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">To Time</label>
-                    <input type="time" class="form-control" name="to_time" required>
-                </div>
-
-                <button type="button" class="save-btn" onclick="saveSlot()">Add Slot</button>
-            </form>
-        </div>
     </div>
 
       <script src="{{ asset('settings/assets/js/clinicAddScript.js') }}"></script>
