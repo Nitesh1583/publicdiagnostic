@@ -2,11 +2,26 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Clinic script loaded');
     
     //Tab handlers only
-    document.querySelectorAll('.tab-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            switchTab(this.getAttribute('data-tab'), this);
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+
+            if (this.classList.contains('disabled')) {
+                e.preventDefault();
+                alert('Please save previous step first.');
+                return;
+            }
+
+            switchTab(this.dataset.tab, this);
+            
         });
     });
+
+    // 👇 AUTO OPEN TAB AFTER REDIRECT
+    // const activeTab = "{{ $activeTab ?? 'address' }}";
+    // const btn = document.querySelector(`.tab-btn[data-tab="${activeTab}"]`);
+    // if (btn && !btn.classList.contains('disabled')) {
+    //     btn.click();
+    // }
 
     //  Modal handlers (timing slots)
     const modalOverlay = document.getElementById('slotModal');
@@ -49,17 +64,34 @@ function loadSlotData(slotKey) {
     document.querySelector('input[name="from_time"]').value = '';
     document.querySelector('input[name="to_time"]').value = '';
     
-    // Load existing data
-    if (timingSlots[slotKey]) {
-        const data = timingSlots[slotKey];
-        data.days.forEach(day => {
+    // NEW: Check ALL days for this slot number (show existing time)
+    const allDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let existingTime = null;
+    
+    allDays.forEach(day => {
+        const daySlotKey = `${day}-${currentSlot.slot}`;
+        if (timingSlots[daySlotKey]) {
+            // Mark this day as checked
             const cb = document.querySelector(`input[value="${day}"]`);
             if (cb) cb.checked = true;
-        });
-        document.querySelector('input[name="from_time"]').value = data.from_time || '';
-        document.querySelector('input[name="to_time"]').value = data.to_time || '';
+            
+            // Use first found time
+            if (!existingTime) {
+                existingTime = {
+                    from_time: timingSlots[daySlotKey].from_time,
+                    to_time: timingSlots[daySlotKey].to_time
+                };
+            }
+        }
+    });
+    
+    // Load time if found
+    if (existingTime) {
+        document.querySelector('input[name="from_time"]').value = existingTime.from_time;
+        document.querySelector('input[name="to_time"]').value = existingTime.to_time;
     }
 }
+
 
 function saveSlot() {
     const days = Array.from(document.querySelectorAll('input[name="days[]"]:checked')).map(cb => cb.value);
@@ -67,35 +99,47 @@ function saveSlot() {
     const toTime = document.querySelector('input[name="to_time"]').value;
 
     if (!days.length || !fromTime || !toTime) {
-        alert(' Please select days and valid time range');
+        alert('Please select days and valid time range');
         return;
     }
 
-    const slotKey = `${currentSlot.day}-${currentSlot.slot}`;
-    timingSlots[slotKey] = { days, from_time: fromTime, to_time: toTime };
+    // Apply SAME time to ALL selected days for THIS SLOT NUMBER
+    days.forEach(day => {
+        const slotKey = `${day}-${currentSlot.slot}`;
+        timingSlots[slotKey] = { 
+            days: [day],  // Single day per slot
+            from_time: fromTime, 
+            to_time: toTime 
+        };
+        updateSlotDisplay(slotKey);  // Update each day display
+    });
     
-    // Update visual display
-    updateSlotDisplay(slotKey);
     updateSummary();
+    updateHiddenField();    
     
-    // Store in form
-    updateHiddenField();
-    
-    console.log(' Saved:', timingSlots[slotKey]);
+    console.log(` Applied ${fromTime}-${toTime} to ${days.length} days (Slot ${currentSlot.slot})`);
     closeSlotModal();
 }
 
+
 function deleteSlot() {
-    const slotKey = `${currentSlot.day}-${currentSlot.slot}`;
-    if (timingSlots[slotKey]) {
-        delete timingSlots[slotKey];
-        updateSlotDisplay(slotKey);
-        updateSummary();
-        updateHiddenField();
-        console.log('Deleted:', slotKey);
-        closeSlotModal();
-    }
+    const allDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    
+    // Delete ALL days for this SLOT NUMBER
+    allDays.forEach(day => {
+        const slotKey = `${day}-${currentSlot.slot}`;
+        if (timingSlots[slotKey]) {
+            delete timingSlots[slotKey];
+            updateSlotDisplay(slotKey);
+        }
+    });
+    
+    updateSummary();
+    updateHiddenField();
+    console.log(`🗑️ Cleared Slot ${currentSlot.slot} from all days`);
+    closeSlotModal();
 }
+
 
 function updateSlotDisplay(slotKey) {
     const timeElement = document.querySelector(`[data-slot-key="${slotKey}"]`);
@@ -139,6 +183,7 @@ function updateHiddenField() {
     document.getElementById('timingForm').appendChild(hiddenField);
 }
 
+
 function closeSlotModal() {
     const modal = document.getElementById('slotModal');
     modal.classList.remove('show');
@@ -180,3 +225,44 @@ function toggleHeaderFields(type) {
         document.getElementById('letterhead-fields').style.display = 'block';
     }
 }
+
+//Success message pop up after every tab dats was saved
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.__SUCCESS_MESSAGE__) {
+        showToast(window.__SUCCESS_MESSAGE__);
+    }
+});
+
+function showToast(message) {
+    const toast = document.getElementById('successToast');
+    document.getElementById('toastMessage').textContent = message;
+
+    toast.classList.add('show');
+
+    // Auto hide after 4 seconds
+    setTimeout(() => {
+        hideToast();
+    }, 4000);
+}
+
+function hideToast() {
+    const toast = document.getElementById('successToast');
+    toast.classList.remove('show');
+}
+
+// function enableEdit(tabId) {
+//     // Enable all inputs in selected tab
+//     document
+//         .querySelectorAll(
+//             `#${tabId} input, #${tabId} select, #${tabId} textarea`
+//         )
+//         .forEach(el => el.removeAttribute('disabled'));
+
+//     // Set edit flag
+//     const flag = document.getElementById(`${tabId}_edit_flag`);
+//     if (flag) {
+//         flag.value = 1;
+//     }
+
+//     console.log(`Edit enabled for: ${tabId}`);
+// }

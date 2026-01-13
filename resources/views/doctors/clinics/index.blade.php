@@ -9,14 +9,40 @@
     <link rel="stylesheet" href="{{ asset('settings/assets/css/clinics-add-style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 <body>
+@php
+$steps = [
+    'address'  => 0,
+    'timing'   => 1,
+    'setup'    => 2,
+    'picture'  => 3,
+    'services' => 4,
+];
+
+$currentStep = $steps[$clinicStep ?? 'address'];
+
+$requestedTab  = request('tab', 'address');
+$requestedStep = $steps[$requestedTab] ?? 0;
+
+// ACTIVE TAB LOGIC
+$activeTab = ($requestedStep <= $currentStep)
+    ? $requestedTab
+    : array_search($currentStep, $steps);
+
+function isReadOnlyTab($tab, $steps, $currentStep) {
+    return $steps[$tab] < $currentStep;
+}
+@endphp
+
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <a href="{{ route('doctors.clinics.index') }}" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Back
+                <a href="{{ route('doctors.dashboard') }}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to dashboard
                 </a>
             </div>
         </div>
@@ -24,82 +50,113 @@
         <!-- Tabs -->
         <div class="tabs-container">
             <div class="tabs-header">
-                <button class="tab-btn {{ request()->query('tab') == null ? 'active' : '' }}" data-tab="address">Address</button>
-                <button class="tab-btn {{ request()->query('tab') == 'timing' ? 'active' : '' }}" data-tab="timing">Timing</button>
-                <button class="tab-btn {{ request()->query('tab') == 'setup' ? 'active' : '' }}" data-tab="setup">Setup</button>
-                <button class="tab-btn {{ request()->query('tab') == 'picture' ? 'active' : '' }}" data-tab="picture">Picture</button>
-                <button class="tab-btn {{ request()->query('tab') == 'services' ? 'active' : '' }}" data-tab="services">Services</button>
-            </div>
+                @foreach($steps as $tab => $step)
+                    <button
+                        class="tab-btn
+                            {{ $step <= $currentStep ? '' : 'disabled' }}
+                            {{ $activeTab === $tab ? 'active' : '' }}"
+                        data-tab="{{ $tab }}"
+                        {{ $step > $currentStep ? 'disabled' : '' }}
+                    >
+                        {{ ucfirst($tab) }}
+
+                        <!-- @if($step < $currentStep)
+                            <i class="fas fa-pen ms-1"></i>
+                        @endif -->
+                    </button>
+                @endforeach
+                </div>
+
+            <!-- <p>Current Step: {{ $currentStep }}</p>
+            <p>Active Tab: {{ $activeTab }}</p> -->
 
             <!-- Address Tab -->
-            <div id="address" class="tab-content {{ request()->query('tab') == null ? 'active' : '' }}">
+            @php $addressReadonly = isReadOnlyTab('address', $steps, $currentStep); @endphp
+
+            <div id="address" class="tab-content {{ $activeTab === 'address' ? 'active' : '' }}">
                 <form id="addressForm" action="{{ route('clinics.address.save') }}" method="POST">
                     @csrf
+                    <input type="hidden" id="address_edit_flag" name="address_edit_flag" value="0">
                     <div class="form-group">
                         <label class="form-label">Clinic Name</label>
-                        <input type="text" class="form-control" name="clinic_name" value="" required>
+                        <input type="text" class="form-control" name="clinic_name" 
+                            value="{{ old('clinic_name', $clinic->clinic_name ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }} required>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Contact No 1</label>
-                            <input type="tel" class="form-control" name="phone1" value="">
+                            <input type="tel" class="form-control" name="phone1" 
+                                value="{{ old('phone1', $clinic->phone1 ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }} required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Contact No 2</label>
-                            <input type="tel" class="form-control" name="phone2" value="">
+                            <input type="tel" class="form-control" name="phone2" value="{{ old('phone1', $clinic->phone2 ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }}>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Address Line 1</label>
-                            <input type="text" class="form-control" name="address_line1" value="">
+                            <input type="text" class="form-control" name="address_line1" 
+                                value="{{ old('address_line1', $clinic->address_line1 ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }} required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Landmark</label>
-                            <input type="text" class="form-control" name="landmark" value="">
+                            <input type="text" class="form-control" name="landmark" 
+                                value="{{ old('landmark', $clinic->landmark ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }} >
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Location</label>
-                            <input type="text" class="form-control" name="location" value="">
+                            <input type="text" class="form-control" name="location" 
+                                value="{{ old('location', $clinic->location ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }} required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Pin Code</label>
-                            <input type="text" class="form-control" name="pincode" value="">
+                            <input type="text" class="form-control" name="pincode" 
+                                value="{{ old('pincode', $clinic->pincode ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }}>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">City</label>
-                            <input type="text" class="form-control" name="city" value="">
+                            <input type="text" class="form-control" name="city" 
+                            value="{{ old('city', $clinic->city ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }}>
                         </div>
                         <div class="form-group">
                             <label class="form-label">State</label>
-                            <input type="text" class="form-control" name="state" value="">
+                            <input type="text" class="form-control" name="state" 
+                                value="{{ old('state', $clinic->state ?? '') }}" {{ $addressReadonly ? 'readonly disabled' : '' }}>
                         </div>
                     </div>
-                    <button type="submit" class="save-btn" >Save</button>
 
+                    @if(!$addressReadonly)
+                        <button type="submit" class="save-btn">Save</button>
+                    @endif
+                    
+                    @if($clinic && session('clinic_step') !== 'address')
+                        <!-- <div class="mb-3 text-end">
+                            <button type="button" class="edit-btn" onclick="enableEdit('address')">
+                                Edit </button>
+                        </div> -->
+                    @endif
                 </form>
             </div>
 
             <!-- Timing Tab -->
-<div id="timing" class="tab-content {{ request()->query('tab') == 'timing' ? 'active' : '' }}">
+            @php $timingReadonly = isReadOnlyTab('timing', $steps, $currentStep); @endphp
+<div id="timing" class="tab-content {{ $activeTab === 'timing' ? 'active' : '' }}">
     <form id="timingForm" action="{{ route('clinics.timing.save') }}" method="POST">
         @csrf
         <!-- Clinic Info -->
+        <input type="hidden" id="timing_edit_flag" name="timing_edit_flag" value="0">
         <div class="form-group mb-4">
             <label class="form-label">Clinic</label>
             <div style="padding: 12px 16px; background: var(--bg-light); border-radius: 12px; border: 1px solid var(--border);">
-                <strong>{{ session('latest_clinic.clinic_name') ?? 'New Clinic' }}</strong>
+                <strong>{{ $clinic->clinic_name ?? 'New Clinic' }}</strong>
             </div>
             <span class="text-muted ms-2">
-                @if(session('latest_clinic'))
-                    Location:{{ session('latest_clinic.city') }}
-                @else
-                    Location: Not set yet
-                @endif
+                     Location: {{ $clinic->city ?? 'Not set yet' }}
             </span>
         </div>
 
@@ -122,7 +179,7 @@
         <!-- Consultation Fees -->
         <div class="form-group mb-4">
             <label class="form-label">Consultation Fees</label>
-            <input type="text" class="form-control" name="consultation_fees" value="" placeholder="₹500">
+            <input type="text" class="form-control" name="consultation_fees" value="" placeholder="₹500" {{ $timingReadonly ? 'readonly disabled' : '' }}>
         </div>
 
         <!-- Timing Slots Title -->
@@ -141,11 +198,11 @@
         <div class="timing-grid">
             <div class="day-slot" data-day="Mon">
                 <div class="day-name">Mon</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Mon', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Mon', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Mon-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Mon', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Mon', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Mon-2"></div>
                 </button>
@@ -153,11 +210,11 @@
 
             <div class="day-slot" data-day="Tue">
                 <div class="day-name">Tue</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Tue', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Tue', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Tue-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Tue', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Tue', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Tue-2"></div>
                 </button>
@@ -165,11 +222,11 @@
 
             <div class="day-slot" data-day="Wed">
                 <div class="day-name">Wed</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Wed', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Wed', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Wed-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Wed', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Wed', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Wed-2"></div>
                 </button>
@@ -177,11 +234,11 @@
 
             <div class="day-slot" data-day="Thu">
                 <div class="day-name">Thu</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Thu', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Thu', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Thu-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Thu', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Thu', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Thu-2"></div>
                 </button>
@@ -189,11 +246,11 @@
 
             <div class="day-slot" data-day="Fri">
                 <div class="day-name">Fri</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Fri', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Fri', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Fri-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Fri', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Fri', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Fri-2"></div>
                 </button>
@@ -201,11 +258,11 @@
 
             <div class="day-slot" data-day="Sat">
                 <div class="day-name">Sat</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Sat', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sat', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Sat-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Sat', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sat', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Sat-2"></div>
                 </button>
@@ -213,17 +270,27 @@
 
             <div class="day-slot" data-day="Sun">
                 <div class="day-name">Sun</div>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Sun', 1)" data-slot="1">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sun', 1)" data-slot="1" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 1</span>
                         <div class="slot-time" data-slot-key="Sun-1"></div>
                     </button>
-                    <button type="button" class="slot-btn" onclick="openSlotModal('Sun', 2)" data-slot="2">
+                    <button type="button" class="slot-btn" onclick="openSlotModal('Sun', 2)" data-slot="2" {{ $timingReadonly ? 'readonly disabled' : '' }}>>
                         <span class="slot-label">Slot 2</span>
                         <div class="slot-time" data-slot-key="Sun-2"></div>
                 </button>
             </div>
         </div>
-        <button type="submit" class="save-btn">Save</button>
+            @if(!$timingReadonly)
+                <button type="submit" class="save-btn">Save</button>
+            @endif
+
+
+        @if($clinic && session('clinic_step') !== 'timing')
+            <!-- <div class="mb-3 text-end">
+                 <button type="button" class="edit-btn" onclick="enableEdit('timing')">
+                    Edit </button>
+            </div> -->
+        @endif
     </form>
 </div>
 
@@ -233,7 +300,7 @@
         <!-- Modal Header - Matches Image 2 -->
         <div class="modal-header">
             <div class="modal-title-container">
-                <h3 class="modal-title" id="modalTitle">Sahil Kumar for Slot 1</h3>
+                <h3 class="modal-title" id="modalTitle">Slot 1</h3>
                 <span class="modal-subtitle">Select days</span>
             </div>
             <button class="close-modal">
@@ -297,18 +364,19 @@
 
 
             <!-- Setup Tab -->
-            <div id="setup" class="tab-content {{ request()->query('tab') == 'setup' ? 'active' : '' }}">
+            @php $setupReadonly = isReadOnlyTab('setup', $steps, $currentStep); @endphp
+            <div id="setup" class="tab-content {{ $activeTab === 'setup' ? 'active' : '' }}">
                 <form id="setupForm" action="{{ route('clinics.setup.save') }}" method="POST">
                     @csrf
+                    <input type="hidden" id="setup_edit_flag" name="setup_edit_flag" value="0">
                     <!-- Primary Doctor Dropdown -->
                     <div class="form-group mb-4">
                         <label class="form-label">Primary Doctor 
                             <!-- <i class="fas fa-chevron-down ms-1" style="font-size: 0.8rem; opacity: 0.6;"></i> -->
                         </label>
                         <select class="form-control" name="primary_doctor">
-                            <option value="" selected>Sahil Kumar</option>
-                            <option value="">Dr. John Doe</option>
-                            <option value="">Dr. Jane Smith</option>
+                            <option value="{{  Auth::guard('doctors')->user()->doctor_name  }}" selected>{{  Auth::guard('doctors')->user()->doctor_name  }}</option>
+                            
                         </select>
                     </div>
 
@@ -330,27 +398,27 @@
                                     <label class="form-label">Tax Registration No:</label>
                                     <div class="d-flex align-items-center">
                                         <!-- <i class="fas fa-circle text-danger me-2"></i> -->
-                                        <input type="text" class="form-control" placeholder="Tax Registration" name="tax_registration_no" value="">
+                                        <input type="text" class="form-control" placeholder="Tax Registration" name="tax_registration_no" value="" {{ $setupReadonly ? 'readonly disabled' : '' }} >
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">Bill No. Prefix</label>
-                                        <input type="text" class="form-control" placeholder="(e.g. 2019-00)" name="bill_no_prefix" value="">
+                                        <input type="text" class="form-control" placeholder="(e.g. 2019-00)" name="bill_no_prefix" value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Bill No. (e.g. 2019-00-001)</label>
-                                        <input type="text" class="form-control" placeholder="2019-00-001" name="bill_no" value="">
+                                        <input type="text" class="form-control" placeholder="2019-00-001" name="bill_no" value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group">
                                         <label class="form-label">No. of Days for Remarks</label>
-                                        <input type="text" class="form-control" name="number_days_remarks" value="">
+                                        <input type="text" class="form-control" name="number_days_remarks" value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">No. of Days for Invoice Due</label>
-                                        <input type="text" class="form-control" name="number_days_invioce_due" value="">
+                                        <input type="text" class="form-control" name="number_days_invioce_due" value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                 </div>
                                 
@@ -358,22 +426,23 @@
                                     <div class="form-group">
                                         <label class="form-label">Bank Name</label>
                                         <input type="text" class="form-control" name="bank_name" 
-                                        value="">
+                                        value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Bank Account no</label>
-                                        <input type="text" class="form-control" name="bank_account_no" value="">
+                                        <input type="text" class="form-control" name="bank_account_no" value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Bank IFSC Code</label>
                                         <input type="text" class="form-control" name="bank_ifsc" 
-                                        value="">
+                                        value="" {{ $setupReadonly ? 'readonly disabled' : '' }}>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Printing -->
+                        
                         <div class="faq-section mb-4" style="background: #E0F7FA; padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary-teal);">
                             <div class="faq-header d-flex justify-content-between align-items-center mb-3" onclick="toggleFaq('printing')" style="cursor: pointer;">
                                 <h5 style="color: var(--primary-teal); margin: 0; font-weight: 600;">+ Printing</h5>
@@ -384,7 +453,7 @@
                                 <div class="form-group mb-4">
                                     <label class="form-label mb-2" style="font-weight: 600;">Set Document Header:</label>
                                     <div class="d-flex align-items-center mb-2">
-                                        <input type="radio" name="printing_header" id="default_header" value="default" class="me-3" checked onchange="toggleHeaderFields('default')">
+                                        <input type="radio" name="printing_header" id="default_header" value="default" class="me-3" checked onchange="toggleHeaderFields('default')" >
                                         <label for="default_header" class="form-label mb-0"> Default header:</label>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
@@ -505,53 +574,105 @@
                             </div>
                         </div>
                     </div>
-                   <button type="submit" class="save-btn mt-4">Save</button>
-                </form>
 
-                
+                    @if(!$setupReadonly)
+                        <button type="submit" class="save-btn mt-4">Save</button>
+                    @endif
+
+                   @if($clinic && session('clinic_step') !== 'setup')
+                        <div class="mb-3 text-end">
+                             <button type="button" class="edit-btn" onclick="enableEdit('setup')">
+                                Edit </button>
+                        </div>
+                    @endif
+                </form>        
             </div>
 
 
             <!-- Picture Tab -->
-            <div id="picture" class="tab-content {{ request()->query('tab') == 'picture' ? 'active' : '' }}">
+            @php $pictureReadonly = isReadOnlyTab('picture', $steps, $currentStep); @endphp
+            <div id="picture" class="tab-content {{ $activeTab === 'picture' ? 'active' : '' }}">
                 <form id="pictureForm" action="{{ route('clinics.picture.save') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                     <input type="hidden" id="picture_edit_flag" name="picture_edit_flag" value="0">
                     <h5 class="mb-4" style="color: var(--text-dark);">Clinic Picture</h5>
                     <div class="form-group">
                         <label class="form-label">Upload Clinic Image</label>
-                        <input type="file" class="form-control" name="upload_picture" accept="image/*">
+                        <input type="file" class="form-control" name="upload_picture" accept="image/*" {{ $pictureReadonly ? 'disabled' : '' }}>>
                     </div>
                     <div style="border: 2px dashed var(--border); border-radius: 12px; padding: 40px; text-align: center; margin-top: 20px;">
                         <i class="fas fa-image" style="font-size: 3rem; color: var(--text-muted);"></i>
                         <p class="mt-2" style="color: var(--text-muted);">No image uploaded</p>
                     </div>
-                    <button type="submit" class="save-btn">Save</button>
+
+                    @if(!$pictureReadonly)
+                        <button type="submit" class="save-btn">Save</button>
+                    @endif
+
+                    @if($clinic && session('clinic_step') !== 'picture')
+                        <div class="mb-3 text-end">
+                            <button type="button" class="edit-btn" onclick="enableEdit('picture')">
+                                Edit </button>
+                        </div>
+                    @endif
                 </form>
             </div>
 
             <!-- Services Tab -->
-            <div id="services" class="tab-content {{ request()->query('tab') == 'services' ? 'active' : '' }}">
+            @php $servicesReadonly = isReadOnlyTab('services', $steps, $currentStep); @endphp
+            <div id="services" class="tab-content {{ $activeTab === 'services' ? 'active' : '' }}">
                 <form id="servicesForm" action="{{ route('clinics.services.save') }}" method="POST" >
                     @csrf
+                    <input type="hidden" id="services_edit_flag" name="services_edit_flag" value="0">
                     <h5 class="mb-4" style="color: var(--text-dark);">Services Offered</h5>
                     <div class="form-group">
                         <label class="form-label">Add Service</label>
-                        <input type="text" class="form-control" name="add_services" value ="" placeholder="General Consultation">
+                        <input type="text" class="form-control" name="add_services" value ="" placeholder="General Consultation"  {{ $servicesReadonly ? 'readonly disabled' : '' }}>
                     </div>
                     <div style="background: var(--bg-light); border-radius: 12px; padding: 20px; margin-top: 16px;">
                         <p style="color: var(--text-muted);">No services added yet</p>
                     </div>
-                    <button type="submit" class="save-btn">Save</button>
+                    
+                    @if(!$servicesReadonly)
+                        <button type="submit" class="save-btn">Save</button>
+                    @endif
+
+
+                    @if($clinic && session('clinic_step') !== 'services')
+                        <div class="mb-3 text-end">
+                            <button type="button" class="edit-btn" onclick="enableEdit('services')">
+                                Edit </button>
+                        </div>
+                    @endif
+
                 </form>
             </div>
-
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
         </div>
 
     </div>
 
-      <script src="{{ asset('settings/assets/js/clinicAddScript.js') }}"></script>
+    {{-- Success Popup --}}
+    <div id="successToast" class="success-toast">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <h4>Success</h4>
+            <p id="toastMessage"></p>
+        </div>
+        <button class="toast-close" onclick="hideToast()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    @if(session('success'))
+    <script>
+        window.__SUCCESS_MESSAGE__ = @json(session('success'));
+    </script>
+    @endif
+
+    <script src="{{ asset('settings/assets/js/clinicAddScript.js') }}"></script>
+
+
 </body>
 </html>

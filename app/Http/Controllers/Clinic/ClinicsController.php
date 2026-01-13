@@ -12,12 +12,39 @@ use App\Models\Clinic;
 
 class ClinicsController extends Controller
 {
+    //  SHOW CLINIC TABS
     public function index()
     {
         $doctor = auth('doctors')->user();
-        $clinics = Clinic::where('doctor_id', $doctor->id)->latest()->get();
-        return view('doctors.clinics.index', compact('doctor', 'clinics'));
+
+        // CURRENT CLINIC (SESSION BASED)
+        $clinic = null;
+        if (session()->has('clinic_draft_id')) {
+            $clinic = Clinic::where('id', session('clinic_draft_id'))
+                ->where('doctor_id', $doctor->id)
+                ->first();
+        }
+
+        $clinicStep = session('clinic_step', 'address');
+
+        return view('doctors.clinics.index', compact(
+            'doctor',
+            'clinic',
+            'clinicStep'
+        ));
     }
+
+    //START NEW CLINIC
+    public function create()
+    {
+        session()->forget([
+            'clinic_draft_id',
+            'clinic_step',
+        ]);
+
+        return redirect()->route('doctors.clinics.index');
+    }
+
 
     public function saveAddress(Request $request)
     {
@@ -50,7 +77,10 @@ class ClinicsController extends Controller
             'state' => $validated['state'],
         ]);
 
-        session(['clinic_draft_id' => $clinic->id]);
+        session([
+            'clinic_draft_id' => $clinic->id,
+            'clinic_step' => 'timing'
+        ]);
 
         return redirect()->route('doctors.clinics.index', ['tab' => 'timing'])
         ->with('success', 'New clinic created! Next: Timing')
@@ -61,8 +91,11 @@ class ClinicsController extends Controller
     public function saveTiming(Request $request)
     {
         $doctor = auth('doctors')->user();
-          // Always gets LATEST (newest) clinic
+        
+        // Always gets LATEST (newest) clinic
         $clinic = Clinic::where('doctor_id', $doctor->id)->latest()->first();
+
+        // $clinic = Clinic::findOrFail(session('clinic_draft_id'));
 
         $validated = $request->validate([
             'consultation_fees' => 'nullable|numeric|min:0|max:999999',
@@ -74,6 +107,8 @@ class ClinicsController extends Controller
             'timing_slots' => $request->input('timing_slots') ? json_decode($request->input('timing_slots'), true) : null,
         ]);
 
+        session(['clinic_step' => 'setup']);
+
         return redirect()->route('doctors.clinics.index', ['tab' => 'setup'])
         ->with('success', 'Timing saved!');
     }
@@ -81,7 +116,9 @@ class ClinicsController extends Controller
     public function saveSetup(Request $request)
     {
         $doctor = auth('doctors')->user();
-        $clinic = Clinic::where('doctor_id', $doctor->id)->latest()->first();
+        // $clinic = Clinic::where('doctor_id', $doctor->id)->latest()->first();
+        $clinic = Clinic::findOrFail(session('clinic_draft_id'));
+
 
         $clinic->update([
             'primary_doctor' => $request->input('primary_doctor'),
@@ -104,6 +141,8 @@ class ClinicsController extends Controller
             'consent_covid_19' => $request->boolean('consent_covid_19'),
         ]);
 
+        session(['clinic_step' => 'picture']);
+
         return redirect()->route('doctors.clinics.index', ['tab' => 'picture'])
         ->with('success', 'Setup saved!');
     }
@@ -112,6 +151,8 @@ class ClinicsController extends Controller
     {
         $doctor = auth('doctors')->user();
         $clinic = Clinic::where('doctor_id', $doctor->id)->latest()->first();
+        $clinic = Clinic::findOrFail(session('clinic_draft_id'));
+
 
         if ($request->hasFile('upload_picture')) {
             if ($clinic->clinic_image) {
@@ -124,6 +165,8 @@ class ClinicsController extends Controller
             ]);
         }
 
+        session(['clinic_step' => 'services']);
+
         return redirect()->route('doctors.clinics.index', ['tab' => 'services'])
         ->with('success', 'Picture saved!');;
     }
@@ -131,18 +174,67 @@ class ClinicsController extends Controller
     public function saveServices(Request $request)
     {
         $doctor = auth('doctors')->user();
-        $clinic = Clinic::where('doctor_id', $doctor->id)->latest()->first();
+        // $clinic = Clinic::where('doctor_id', $doctor->id)->latest()->first();
+         $clinic = Clinic::findOrFail(session('clinic_draft_id'));
 
         $services = array_filter(array_map('trim', explode(',', $request->input('add_services', ''))));
 
         $clinic->update([
             'services' => $services,
-            'clinic_name' => $clinic->clinic_name !== 'Draft' ? $clinic->clinic_name : 'New Clinic',
+            // 'clinic_name' => $clinic->clinic_name !== 'Draft' ? $clinic->clinic_name : 'New Clinic',
         ]);
 
-        session()->forget('clinic_draft_id');
+        session()->forget(['clinic_step', 'clinic_draft_id']);
 
         return redirect()->route('doctors.clinics.index')->with('success', 'Clinic created successfully!');
     }
 
+
+    // SHOW ALL CLINICS LIST FUNCTION
+        // public function getClinicsList()
+        // {
+        //     $doctor = auth('doctors')->user();
+        //     $clinics = Clinic::where('doctor_id', $doctor->id)
+        //         ->orderByDesc('is_default')
+        //         ->orderBy('created_at', 'desc')
+        //         ->get([
+        //             'id', 'clinic_name', 'city', 'state', 'phone1', 
+        //             'consultation_fees', 'is_default'
+        //         ]);
+            
+        //     return response()->json([
+        //     'success' => true,
+        //     'clinics' => $clinics->toArray()  // Convert to array
+        // ]);
+        // }
+
+        // public function getClinicsList()
+        // {
+        //     $doctor = auth('doctors')->user();
+        //     $clinics = Clinic::where('doctor_id', $doctor->id)
+        //         ->orderByDesc('is_default')
+        //         ->orderBy('created_at', 'desc')
+        //         ->get();
+
+        //     return response()->json([
+        //         'success' => true,
+        //         'html' => view('doctors.settings.index', compact('clinics'))->render()
+        //     ]);
+        // }
+
+
+    public function setDefault(Request $request, $id)
+    {
+        $doctor = auth('doctors')->user();
+        
+        // Reset all clinics to non-default
+        Clinic::where('doctor_id', $doctor->id)->update(['is_default' => false]);
+        
+        // Set selected clinic as default
+        Clinic::where('id', $id)
+            ->where('doctor_id', $doctor->id)
+            ->update(['is_default' => true]);
+        
+        return response()->json(['success' => true]);
+    }
 }
