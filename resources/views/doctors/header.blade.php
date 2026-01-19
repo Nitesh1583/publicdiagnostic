@@ -35,17 +35,22 @@
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
- <div class="sidebar-header">
+  <div class="sidebar-header">
     <button class="close-btn" id="closeSidebar">
       <i data-lucide="x"></i>
     </button>
 
     {{-- DYNAMIC SIDEBAR PHOTO --}}
+    
     @if(isset($doctor) && $doctor->photo)
-        <img src="{{ $doctor->photo_url ?: asset('storage/' . $doctor->photo) }}" 
-             alt="{{ $doctor->doctor_name }}" />
+      
+      <img src="{{ $doctor->photo_url ?: asset('storage/' . $doctor->photo) }}" 
+        alt="{{ $doctor->doctor_name }}" />
+    
     @else
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" />
+      
+      <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" />
+    
     @endif
 
     <h2>{{ isset($doctor) ? $doctor->doctor_name : 'Dr. Parul Kalra' }}</h2>
@@ -58,24 +63,64 @@
   </div>
 
   <ul class="menu">
+    
     <a href="{{ route('doctors.profile.edit', $doctor->id) }}">
-      <li><i data-lucide="key"></i><span>Change Password</span></li>
+      <li>
+        <i data-lucide="key"></i>
+        <span>Change Password</span>
+      </li>
     </a>
-    <li><i data-lucide="users"></i><span>Refer and Earn</span></li>
-    <li><i data-lucide="gift"></i><span>My Rewards</span></li>
-    <li><i data-lucide="share-2"></i><span>Share</span></li>
+
+    <li>
+      <i data-lucide="users"></i>
+      <span>Refer and Earn</span>
+    </li>
+
+    <li>
+      <i data-lucide="gift"></i>
+      <span>My Rewards</span>
+    </li>
+
+    <li>
+      <i data-lucide="share-2"></i>
+      <span>Share</span>
+    </li>
+
     <a href="#">
-      <li><i data-lucide="info"></i><span>About Us</span></li>
+      <li>
+        <i data-lucide="info"></i>
+        <span>About Us</span>
+      </li>
     </a>
-    <li><i data-lucide="shield"></i><span>Privacy Policy</span></li>
+    
+    <li>
+      <i data-lucide="shield"></i>
+      <span>Privacy Policy</span>
+    </li>
+
     <a href="#">
-      <li><i data-lucide="message-circle"></i><span>Send Feedback</span></li>
+      <li>
+        <i data-lucide="message-circle"></i>
+        <span>Send Feedback</span>
+      </li>
     </a>
+    
     <a href="#">
-      <li><i data-lucide="sparkles"></i><span>What's New</span></li>
+      <li>
+        <i data-lucide="sparkles"></i>
+        <span>What's New</span>
+      </li>
     </a>
-    <!-- <li><i data-lucide="power"></i><span>Logout</span></li> -->
-    <li><i data-lucide="power"></i><span><a href="{{ route('doctors.logout') }}">Logout</a></span></li>
+    
+    <li>
+      <form method="POST" action="{{ route('doctors.logout') }}" style="display: inline;">
+        @csrf
+        <button type="submit" style="background: none; border: none; cursor: pointer; padding: 0;">
+            <i data-lucide="power"></i>
+            <span>Logout</span>
+        </button>
+      </form>
+    </li>
   </ul>
 
   <div class="sidebar-footer">

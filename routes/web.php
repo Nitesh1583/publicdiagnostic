@@ -137,7 +137,22 @@ Route::prefix('clinic/doctors')->group(function () {
 
         // Save Notification Routes
         // Route::post('/notification-settings', [SettingsController::class, 'saveNotificationSettings'])->name('doctors.notification.save');
-        
+
+        // patient communication route
+        // Route::post('/doctors/patient-communication-settings', [SettingsController::class, 'savePatientCommSettings'])->name('doctors.patient-comm.save');
+
+        // Complaints Types  Routes
+        Route::get('/complaints-modal', [SettingsController::class, 'complaintsModal'])->name('doctors.complaints.modal');
+
+        Route::get('/complaints', [SettingsController::class, 'complaints'])->name('doctors.complaints');
+        Route::post('/complaints', [SettingsController::class, 'storeComplaint'])->name('doctors.complaints.store');
+        Route::delete('/complaints/{id}', [SettingsController::class, 'destroyComplaint'])->name('doctors.complaints.destroy');
+
+
+        // Treatment Routes
+        Route::get('/treatments', [SettingsController::class, 'treatments'])->name('doctors.treatments');
+        Route::post('/treatments', [SettingsController::class, 'storeTreatment'])->name('doctors.treatments.store');
+        Route::delete('/treatments/{id}', [SettingsController::class, 'destroyTreatment'])->name('doctors.treatments.destroy');
     });
 
 });
