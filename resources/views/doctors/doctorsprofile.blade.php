@@ -70,8 +70,8 @@
                     <h5><i class="fas fa-info-circle"></i>Profile details</h5>
                     <ul class="info-list">
                         <li>
-                            <span class="info-label">Clinic / Hospital</span>
-                            <span class="info-value">{{ $doctor->clinic_name }}</span>
+                            <span class="info-label">Business Category</span>
+                            <span class="info-value">{{ $doctor->business_category }}</span>
                         </li>
                         <li>
                             <span class="info-label">Doctor name</span>

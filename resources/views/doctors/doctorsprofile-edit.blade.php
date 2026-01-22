@@ -38,10 +38,11 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="clinic_name">Clinic / Hospital Name</label>
-                        <input type="text" id="clinic_name" name="clinic_name" 
-                               value="{{ old('clinic_name', $doctor->clinic_name) }}" required>
-                        @error('clinic_name') <div class="error-text">{{ $message }}</div> @enderror
+                        <label for="business_category">Business Category</label>
+                        <select id="business_category" name="business_category" required>
+                            <option value="{{ old('business_category', $doctor->business_category) }}" selected>{{ old('business_category', $doctor->business_category) }}</option>
+                        </select>
+                        @error('business_category') <div class="error-text">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="form-group">
@@ -74,7 +75,7 @@
                     {{-- NEW: PASSWORD SECTION --}}
                     <div class="form-group">
                         <label for="current_password">Current Password</label>
-                        <input type="password" id="current_password" name="current_password" required>
+                        <input type="password" id="current_password" name="current_password">
                         @error('current_password') <div class="error-text">{{ $message }}</div> @enderror
                     </div>
 

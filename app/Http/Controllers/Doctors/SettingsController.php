@@ -8,6 +8,7 @@ use App\Models\Doctors;
 use App\Models\Clinic;
 use App\Models\ComplaintType;
 use App\Models\Treatment;
+use App\Models\DoctorStaff;
 
 class SettingsController extends Controller
 {   
@@ -257,5 +258,100 @@ class SettingsController extends Controller
     }
 
     // Add, Delete or show All Treatment Work Starts Here  =====================>
+
+
+    // Add , Edit or Delete or show All category Work Starts here ===============>
+
+    public function categories()
+    {
+        $doctor = auth('doctors')->user();
+        $categories = Category::where('doctor_id', $doctor->id)->orderBy('created_at', 'desc')->get();
+        return view('doctors.settings.partials.categories-modal', compact('categories'));
+    }
+
+    // Add New Category
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'category_name' => 'required|string|max:100|unique:categories,category_name,NULL,id,doctor_id,' . auth('doctors')->id()
+        ]);
+        
+        Category::create([
+            'doctor_id' => auth('doctors')->user()->id,
+            'category_name' => $request->category_name
+        ]);
+        
+        return back()->with('success', 'Category added successfully!');
+    }
+
+    // Update Category after Edit
+    public function updateCategory(Request $request, Category $category)
+    {
+        if ($category->doctor_id !== auth('doctors')->id()) {
+            abort(403);
+        }
+        
+        $request->validate([
+            'category_name' => 'required|string|max:100|unique:categories,category_name,' . $category->id
+        ]);
+        
+        $category->update(['category_name' => $request->category_name]);
+        return back()->with('success', 'Category updated successfully!');
+    }
+
+    // Delete Category
+    public function destroyCategory(Category $category)
+    {
+        if ($category->doctor_id !== auth('doctors')->id()) {
+            abort(403);
+        }
+        
+        $category->delete();
+        return back()->with('success', 'Category deleted successfully!');
+    }
+
+
+    // Add, Edit , Delete or Show All Category Works End Here ==================>
+
+
+    // Add Doctors(Practicing staff) works Start here ======================>
+
+    public function storeDoctorStaff(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'practicing_category' => 'required|string|max:100',
+            'mobile_no' => 'required|digits:10|unique:doctors,mobile_no',
+            'email' => 'required|email|unique:doctors,email',
+            'clinic_id' => 'required|exists:clinics,id',
+            'doctor_type' => 'required|in:Resident,Visiting',
+        ]);
+
+        $permissions = [];
+        if ($request->doctor_type === 'Resident') {
+            // Store FAQ permissions
+            $faqPermissions = [
+                'patients' => $request->has('faq_patients') ? 1 : 0,
+                'appointments' => $request->has('faq_appointments') ? 1 : 0,
+                'billing' => $request->has('faq_billing') ? 1 : 0,
+                'labwork' => $request->has('faq_labwork') ? 1 : 0,
+                'inventory' => $request->has('faq_inventory') ? 1 : 0,
+                'patient_permissions' => $request->patient_permissions ?? []
+            ];
+            
+            // Store additional permissions
+            $permissions = $request->permissions ?? [];
+            
+            $validated['faq_permissions'] = json_encode($faqPermissions);
+            $validated['permissions'] = json_encode($permissions);
+        }
+
+        DoctorStaff::create($validated);
+
+        return redirect()->back()->with('success', 'Doctor added successfully!');
+    }
+
+    // Add Doctors(Practicing staff) works Ends here =======================>
 
 }

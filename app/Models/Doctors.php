@@ -14,7 +14,7 @@ class Doctors extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'clinic_name',
+        'business_category',
         'doctor_name',
         'email',
         'password',

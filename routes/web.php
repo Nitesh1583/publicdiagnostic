@@ -153,6 +153,17 @@ Route::prefix('clinic/doctors')->group(function () {
         Route::get('/treatments', [SettingsController::class, 'treatments'])->name('doctors.treatments');
         Route::post('/treatments', [SettingsController::class, 'storeTreatment'])->name('doctors.treatments.store');
         Route::delete('/treatments/{id}', [SettingsController::class, 'destroyTreatment'])->name('doctors.treatments.destroy');
+
+
+        // Category Routes
+        Route::get('/categories', [SettingsController::class, 'categories'])->name('doctors.categories');
+        Route::post('/categories', [SettingsController::class, 'storeCategory'])->name('doctors.categories.store');
+        Route::put('/categories/{category}', [SettingsController::class, 'updateCategory'])->name('doctors.categories.update');
+        Route::delete('/categories/{category}', [SettingsController::class, 'destroyCategory'])->name('doctors.categories.destroy');
+
+        // Add Doctor Staff
+        Route::post('/add/staff', [SettingsController::class, 'storeDoctorStaff'])->name('doctorstaff.store');
+
     });
 
 });

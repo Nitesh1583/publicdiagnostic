@@ -53,7 +53,7 @@
     
     @endif
 
-    <h2>{{ isset($doctor) ? $doctor->doctor_name : 'Dr. Parul Kalra' }}</h2>
+    <h2>{{ isset($doctor) ? $doctor->doctor_name : '' }}</h2>
 
     <div class="subscription">
       Subscription expires on:

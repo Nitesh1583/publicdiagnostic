@@ -31,16 +31,16 @@ class DoctorsProfileController extends Controller
         
         $request->validate([
             'doctor_name' => 'required|string|max:255',
-            'clinic_name' => 'required|string|max:255',
+            'business_category' => 'required|string|max:255',
             'email' => 'required|email|unique:doctors,email,' . $id,
             'contact_number' => 'required|string|max:20',
             'category' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'current_password' => 'required',
+            'current_password' => 'required_with:password',
             'password' => 'nullable|min:8|confirmed',
         ]);
 
-        $data = $request->only(['doctor_name', 'clinic_name', 'email', 'contact_number', 'category']);
+        $data = $request->only(['doctor_name', 'business_category', 'email', 'contact_number', 'category']);
 
         // PASSWORD CHANGE LOGIC
         if ($request->filled('password')) {

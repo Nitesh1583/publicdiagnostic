@@ -20,16 +20,16 @@ class DoctorsAuthController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'clinic_name'    => 'required|string|max:255',
-            'doctor_name'    => 'required|string|max:255',
-            'email'          => 'required|email|max:255|unique:doctors,email',
-            'password'       => 'required|min:8|confirmed',
-            'contact_number' => 'required|string|max:20',
-            'category'       => 'required|string|max:255',
+            'business_category'=> 'required|string|max:255',
+            'doctor_name'       => 'required|string|max:255',
+            'email'             => 'required|email|max:255|unique:doctors,email',
+            'password'         => 'required|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|confirmed',
+            'contact_number'    => 'required|string|max:20',
+            'category'          => 'required|string|max:255',
         ]);
 
         Doctors::create([
-            'clinic_name'    => $request->clinic_name,
+            'business_category'    => $request->business_category,
             'doctor_name'    => $request->doctor_name,
             'email'          => $request->email,
             'password'       => Hash::make($request->password),

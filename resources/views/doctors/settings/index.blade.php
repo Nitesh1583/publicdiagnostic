@@ -15,9 +15,12 @@
 
 </head>
 <body>
-    <a href="{{ route('doctors.dashboard') }}" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Back to dashboard
-    </a>
+     <div class="back-btn-wrapper">
+        <a href="{{ route('doctors.dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back</span>
+        </a>
+    </div>
 
     <main>
         <div class="settings_page-container">
@@ -106,10 +109,11 @@
             <section class="settings_section container">
                 <div class="settings_section-title">Users</div>
                 <ul class="settings_list">
+                    <a href="" onclick="openAddDoctorModal(); return false;">
                     <li class="settings_list-item">
                         <span>Doctors (Practicing Staff)</span>
                         <i data-lucide="chevron-right"></i>
-                    </li>
+                    </li></a>
                     <li class="settings_list-item">
                         <span>Receptionist</span>
                         <i data-lucide="chevron-right"></i>
@@ -163,7 +167,7 @@
                         </li>
                     </a>
 
-                    <a href="#" onclick="openMedicinesModal()">
+                    <a href="" onclick="openMedicinesModal()">
                         <li class="settings_list-item">
                             <span>Medicines</span>
                             <i data-lucide="chevron-right"></i>
@@ -186,13 +190,13 @@
                         <i data-lucide="chevron-right"></i>
                     </li>
                     
-                    <a href="#" onclick="openNotificationModal(); return false;">
+                    <a href="" onclick="openNotificationModal(); return false;">
                         <li class="settings_list-item">
                             <span>Notification</span>
                             <i data-lucide="chevron-right"></i>
                         </li>
                     </a>
-                    <a href="#" onclick="openPatientCommModal(); return false;">
+                    <a href="" onclick="openPatientCommModal(); return false;">
                         <li class="settings_list-item">
                             <span>Patient Communication</span>
                             <i data-lucide="chevron-right"></i>
@@ -205,8 +209,21 @@
             <section class="settings_section container">
                 <div class="settings_section-title">Add Ons</div>
                 <ul class="settings_list">
-                    <li class="settings_list-item"><span>Category Master</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Groups</span><i data-lucide="chevron-right"></i></li>
+                    
+                    <a href="" onclick="openCategoryModal(); return false;">
+                        <li class="settings_list-item">
+                            <span>Category Master</span>
+                            <i data-lucide="chevron-right"></i>
+                        </li>
+                    </a>
+
+                    <a href="#">
+                        <li class="settings_list-item">
+                            <span>Groups</span>
+                            <i data-lucide="chevron-right"></i>
+                        </li>
+                    </a>
+
                     <li class="settings_list-item"><span>Taxes</span><i data-lucide="chevron-right"></i></li>
                     <li class="settings_list-item"><span>Membership Plans</span><i data-lucide="chevron-right"></i></li>
                     <li class="settings_list-item"><span>Consent Forms</span><i data-lucide="chevron-right"></i></li>
@@ -622,155 +639,152 @@
             </div>
 
 
-                <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Starts-->
-                <div id="TreatmentsModal" class="popup-container">
-                    <div class="popup-content" style="max-width: 750px;">
-                        <div class="popup-header">
-                            <h2><i class="fas fa-user-md"></i> Treatment List</h2>
-                            <span class="close-btn" onclick="closeTreatmentModal()">&times;</span>
-                        </div>
-                        
-                        <!-- Add Treatment Form Section -->
-                        <div class="add-treatment-section">
-                            <form method="POST" action="{{ route('doctors.treatments.store') }}" class="add-treatment-form">
-                                @csrf
+            <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Starts-->
+            <div id="TreatmentsModal" class="popup-container">
+                <div class="popup-content" style="max-width: 750px;">
+                    <div class="popup-header">
+                        <h2><i class="fas fa-user-md"></i> Treatment List</h2>
+                        <span class="close-btn" onclick="closeTreatmentModal()">&times;</span>
+                    </div>
+                    
+                    <!-- Add Treatment Form Section -->
+                    <div class="add-treatment-section">
+                        <form method="POST" action="{{ route('doctors.treatments.store') }}" class="add-treatment-form">
+                            @csrf
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Treatment Name <span class="required">*</span></label>
+                                    <input type="text" name="treatment_name" required maxlength="150">
+                                </div>
+                                
+                                <!-- Checkbox Section -->
+                                <div class="form-group checkbox-group">
+                                    <label class="section-label">
+                                        <input type="checkbox" name="all_clinics" id="allClinics" value="1">
+                                        <span class="checkmark"></span>
+                                        Set price for All Clinics (Same price everywhere)
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <!-- All Clinics Pricing (SHOW when checked) -->
+                            <div id="allClinicsTreatmentPricing" class="pricing-section">
+                                <h5><i class="fas fa-clinic-medical"></i> All Clinics Pricing</h5>
+                                <div class="price-row">
+                                    <div class="form-group">
+                                        <label>Price (₹) <span class="required">*</span></label>
+                                        <input type="number" name="price" step="0.01" min="0" >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Per Clinic Pricing (SHOW when NOT checked) -->
+                            <div id="perClinicPricing" class="per-clinic-section">
+                                <h5><i class="fas fa-list"></i> Per Clinic Pricing</h5>
+                                @foreach($clinics as $clinic)
+                                <div class="clinic-price-card">
+                                    <div class="clinic-header">
+                                        <i class="fas fa-clinic-medical"></i> {{ $clinic->clinic_name }}
+                                    </div>
+                                    <div class="price-inputs">
+                                        <input type="number" name="clinic_price[{{ $clinic->id }}][price]" placeholder="Price ₹" step="0.01" >
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+
+                            <!-- Additional Fields -->
+                            <div class="additional-fields">
+                                <h5><i class="fas fa-cogs"></i> Additional Details</h5>
                                 <div class="form-grid">
                                     <div class="form-group">
-                                        <label>Treatment Name <span class="required">*</span></label>
-                                        <input type="text" name="treatment_name" required maxlength="150">
+                                        <label>Description</label>
+                                        <textarea name="description" rows="2" maxlength="500"></textarea>
                                     </div>
-                                    
-                                    <!-- Checkbox Section -->
-                                    <div class="form-group checkbox-group">
-                                        <label class="section-label">
-                                            <input type="checkbox" name="all_clinics" id="allClinics" value="1">
-                                            <span class="checkmark"></span>
-                                            Set price for All Clinics (Same price everywhere)
-                                        </label>
+                                    <div class="form-group">
+                                        <label>Variant</label>
+                                        <input type="text" name="variant" maxlength="100">
                                     </div>
-
-                                </div>
-
-                                <!-- All Clinics Pricing (SHOW when checked) -->
-                                <div id="allClinicsTreatmentPricing" class="pricing-section">
-                                    <h5><i class="fas fa-clinic-medical"></i> All Clinics Pricing</h5>
-                                    <div class="price-row">
-                                        <div class="form-group">
-                                            <label>Price (₹) <span class="required">*</span></label>
-                                            <input type="number" name="price" step="0.01" min="0" >
-                                        </div>
+                                    <div class="form-group">
+                                        <label>SAC Code</label>
+                                        <input type="text" name="sac_code" maxlength="50">
                                     </div>
                                 </div>
-
-                                <!-- Per Clinic Pricing (SHOW when NOT checked) -->
-                                <div id="perClinicPricing" class="per-clinic-section">
-                                    <h5><i class="fas fa-list"></i> Per Clinic Pricing</h5>
-                                    @foreach($clinics as $clinic)
-                                    <div class="clinic-price-card">
-                                        <div class="clinic-header">
-                                            <i class="fas fa-clinic-medical"></i> {{ $clinic->clinic_name }}
-                                        </div>
-                                        <div class="price-inputs">
-                                            <input type="number" name="clinic_price[{{ $clinic->id }}][price]" placeholder="Price ₹" step="0.01" >
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-
-                                <!-- Additional Fields -->
-                                <div class="additional-fields">
-                                    <h5><i class="fas fa-cogs"></i> Additional Details</h5>
-                                    <div class="form-grid">
-                                        <div class="form-group">
-                                            <label>Description</label>
-                                            <textarea name="description" rows="2" maxlength="500"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Variant</label>
-                                            <input type="text" name="variant" maxlength="100">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>SAC Code</label>
-                                            <input type="text" name="sac_code" maxlength="50">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="submit" class="save-btn">Add Treatment</button>
-                            </form>
-                        </div>
-
-                        <!-- Treatment List Section -->
-                        <div class="treatment-list-section">
-                            <div class="list-header">
-                                <h4>Total: {{ count($treatments ?? []) }} Treatments</h4>
                             </div>
-                            
-                            <div class="treatments-grid">
-                                @forelse($treatments ?? [] as $treatment)
-                                    <div class="treatment-card">
-                                        <div class="treatment-main">
-                                            <div class="treatment-icon">
-                                                <i class="fas fa-user-md"></i>
-                                            </div>
-                                            <div class="treatment-info">
-                                                <h5>{{ $treatment->treatment_name }}</h5>
-                                                @if($treatment->description)
-                                                    <p>{{ Str::limit($treatment->description, 80) }}</p>
-                                                @endif
-                                                <div class="treatment-meta">
-                                                    @if($treatment->clinic_prices)
-                                                        <!-- Per Clinic Pricing -->
-                                                        <span class="price">
-                                                            <i class="fas fa-clinics"></i> 
-                                                            {{ count($treatment->clinic_prices) }} Clinics
-                                                            @foreach($treatment->clinic_prices as $clinicId => $priceData)
-                                                                @php $clinic = $clinics->find($clinicId); @endphp
-                                                                <small>
-                                                                    {{ $clinic?->clinic_name ?? 'Clinic #' . $clinicId }}: ₹{{ number_format($priceData['price'], 2) }}
-                                                                </small>
-                                                            @endforeach
-                                                        </span>
-                                                    @else
-                                                        <!-- All Clinics Pricing -->
-                                                        <span class="price">₹{{ number_format($treatment->price, 2) }} (All Clinics)</span>
-                                                    @endif
-                                                </div>
 
-                                            </div>
-                                        </div>
-                                        <div class="treatment-actions">
-                                            <form method="POST" action="{{ route('doctors.treatments.destroy', $treatment->id) }}" 
-                                                  class="delete-form" onsubmit="return confirm('Delete this treatment?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="delete-btn">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="empty-state">
-                                        <div class="empty-icon">
+                            <button type="submit" class="save-btn">Add Treatment</button>
+                        </form>
+                    </div>
+
+                    <!-- Treatment List Section -->
+                    <div class="treatment-list-section">
+                        <div class="list-header">
+                            <h4>Total: {{ count($treatments ?? []) }} Treatments</h4>
+                        </div>
+                        
+                        <div class="treatments-grid">
+                            @forelse($treatments ?? [] as $treatment)
+                                <div class="treatment-card">
+                                    <div class="treatment-main">
+                                        <div class="treatment-icon">
                                             <i class="fas fa-user-md"></i>
                                         </div>
-                                        <h4>No Treatments Added</h4>
-                                        <p>Add your first treatment using the form above</p>
-                                        <div class="empty-hint">
-                                            <i class="fas fa-lightbulb"></i> Examples: Consultation, X-Ray, Blood Test
+                                        <div class="treatment-info">
+                                            <h5>{{ $treatment->treatment_name }}</h5>
+                                            @if($treatment->description)
+                                                <p>{{ Str::limit($treatment->description, 80) }}</p>
+                                            @endif
+                                            <div class="treatment-meta">
+                                                @if($treatment->clinic_prices)
+                                                    <!-- Per Clinic Pricing -->
+                                                    <span class="price">
+                                                        <i class="fas fa-clinics"></i> 
+                                                        {{ count($treatment->clinic_prices) }} Clinics
+                                                        @foreach($treatment->clinic_prices as $clinicId => $priceData)
+                                                            @php $clinic = $clinics->find($clinicId); @endphp
+                                                            <small>
+                                                                {{ $clinic?->clinic_name ?? 'Clinic #' . $clinicId }}: ₹{{ number_format($priceData['price'], 2) }}
+                                                            </small>
+                                                        @endforeach
+                                                    </span>
+                                                @else
+                                                    <!-- All Clinics Pricing -->
+                                                    <span class="price">₹{{ number_format($treatment->price, 2) }} (All Clinics)</span>
+                                                @endif
+                                            </div>
+
                                         </div>
                                     </div>
-                                @endforelse
-                            </div>
+                                    <div class="treatment-actions">
+                                        <form method="POST" action="{{ route('doctors.treatments.destroy', $treatment->id) }}" 
+                                              class="delete-form" onsubmit="return confirm('Delete this treatment?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="empty-state">
+                                    <div class="empty-icon">
+                                        <i class="fas fa-user-md"></i>
+                                    </div>
+                                    <h4>No Treatments Added</h4>
+                                    <p>Add your first treatment using the form above</p>
+                                    <div class="empty-hint">
+                                        <i class="fas fa-lightbulb"></i> Examples: Consultation, X-Ray, Blood Test
+                                    </div>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
-
-
+            </div>
             <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Ends -->
 
             
-
             <!-- Show All Complaint Types Add by Doctor/ Clinic or Add new Complaints -->
             <!-- Doctor Complaint Types Modal -->
             <div id="ComplaintsModal" class="popup-container">
@@ -850,6 +864,306 @@
                 </div>
             </div>
             <!-- END Show All Complaint Types Add by Doctor/ Clinic -->
+
+
+            <!-- Show or Create Category Work Starts here -->
+            <!-- Doctor/Clinic Category Modal -->
+            <div id="CategoryModal" class="popup-container">
+                <div class="popup-content" style="max-width: 650px;">
+                    <div class="popup-header">
+                        <h2><i class="fas fa-tags"></i> Categories</h2>
+                        <span class="close-btn" onclick="closeCategoryModal()">&times;</span>
+                    </div>
+                    
+                    <!-- Add Category Form -->
+                    <div class="add-category-section">
+                        <form method="POST" action="{{ route('doctors.categories.store') }}" class="add-category-form">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" name="category_name" placeholder="Enter category name (e.g., Medicine, Tests, Consultation)" 
+                                       maxlength="100" required class="category-input">
+                                <button type="submit" class="add-btn">
+                                    <i class="fas fa-plus"></i> Add Category
+                                </button>
+                            </div>
+                            @if(session('success'))
+                                <div class="success-msg">
+                                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                                </div>
+                            @endif
+                        </form>
+                    </div>
+                    
+                    <!-- Categories List -->
+                    <div class="categories-list-section">
+                        <div class="list-header">
+                            <h4>Total: {{ count($categories ?? []) }} Categories</h4>
+                        </div>
+                        
+                        <div class="categories-grid">
+                            @forelse($categories ?? [] as $category)
+                                <div class="category-card">
+                                    <div class="category-content">
+                                        <div class="category-icon">
+                                            <i class="fas fa-tag"></i>
+                                        </div>
+                                        <div class="category-details">
+                                            <h5>{{ $category->category_name }}</h5>
+                                            <span class="added-date">
+                                                <i class="fas fa-clock"></i> {{ $category->created_at->diffForHumans() }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="category-actions">
+                                        <!-- Edit Form -->
+                                        <form method="POST" action="{{ route('doctors.categories.update', $category->id) }}" class="edit-form">
+                                            @csrf @method('PUT')
+                                            <input type="text" name="category_name" value="{{ $category->category_name }}" maxlength="100" required class="edit-input">
+                                            <button type="submit" class="edit-btn" title="Update">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                        <!-- Delete Form -->
+                                        <form method="POST" action="{{ route('doctors.categories.destroy', $category->id) }}" class="delete-form" 
+                                              onsubmit="return confirm('Delete {{ $category->category_name }}?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="delete-btn" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="empty-state">
+                                    <div class="empty-icon">
+                                        <i class="fas fa-tags"></i>
+                                    </div>
+                                    <h4>No Categories Added</h4>
+                                    <p>Add your first category using the form above</p>
+                                    <div class="empty-hint">
+                                        <i class="fas fa-lightbulb"></i> Examples: Medicine, Lab Tests, Consultation
+                                    </div>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Show or Create Category Work Ends here -->
+
+
+            <!-- Show Or Add Doctors(Practicing Satff) Work Start here -->
+                        <div id="AddDoctorModal" class="popup-container">
+                <div class="popup-content" style="max-width: 650px;">
+                    <div class="popup-header">
+                        <h3>Add Doctor / Staff</h3>
+                        <span class="close-btn" onclick="closeAddDoctorModal()">&times;</span>
+                    </div>
+                    <form id="addDoctorForm" action="{{ route('doctorstaff.store') }}" method="POST">
+                        @csrf
+                        <div class="popup-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>First Name <span class="required">*</span></label>
+                                    <input type="text" name="first_name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name <span class="required">*</span></label>
+                                    <input type="text" name="last_name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Practicing Category <span class="required">*</span></label>
+                                    <select name="practicing_category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="General Physician">General Physician</option>
+                                        <option value="Cardiologist">Cardiologist</option>
+                                        <option value="Dentist">Dentist</option>
+                                        <option value="Dermatologist">Dermatologist</option>
+                                        <option value="Gynaecologist">Gynaecologist</option>
+                                        <option value="Neurologist">Neurologist</option>
+                                        <option value="Orthopedic">Orthopedic</option>
+                                        <option value="Pediatrician">Pediatrician</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Mobile No <span class="required">*</span></label>
+                                    <input type="tel" name="mobile_no" pattern="[0-9]{10}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email ID <span class="required">*</span></label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Select Clinic <span class="required">*</span></label>
+                                    <select name="clinic_id" required>
+                                        <option value="">Select Clinic</option>
+                                        @foreach($clinics as $clinic)
+                                            <option value="{{ $clinic->id }}">{{ $clinic->clinic_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Doctor Type <span class="required">*</span></label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio"  class="radio-checkmark" name="doctor_type" value="Resident" required> Resident
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio"  class="radio-checkmark" name="doctor_type" value="Visiting" required> Visiting
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="residentPermissions" style="display: none;">
+                                <div class="section-title">FAQ Permissions</div>
+                                
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_patients[]" value="1">
+                                        <label>Patients</label>
+                                    </div>
+                                    <div class="permission-options" style="display: none;">
+                                        <div class="option-row">
+                                            <div class="option-group">
+                                                <label>Patient</label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Patient][add]" value="1"> Add
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Patient][update]" value="1"> Update
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Patient][delete]" value="1"> Delete
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="option-group">
+                                                <label>Visit/Transaction</label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Visit/Transaction][add]" value="1"> Add
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Visit/Transaction][update]" value="1"> Update
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Visit/Transaction][delete]" value="1"> Delete
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="option-group">
+                                                <label>Prescription</label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Prescription][add]" value="1"> Add
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Prescription][update]" value="1"> Update
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Prescription][delete]" value="1"> Delete
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="option-group">
+                                                <label>Payment</label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Payment][add]" value="1"> Add
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Payment][update]" value="1"> Update
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[Payment][delete]" value="1"> Delete
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="option-group">
+                                                <label>Treatment Plan</label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[TreatmentPlan][add]" value="1"> Add
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[TreatmentPlan][update]" value="1"> Update
+                                                </label>
+                                                <label class="checkbox-small">
+                                                    <input type="checkbox" name="patient_permissions[TreatmentPlan][delete]" value="1"> Delete
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_appointments[]" value="1">
+                                        <label>Appointments</label>
+                                    </div>
+                                </div>
+
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_billing[]" value="1">
+                                        <label>Billing</label>
+                                    </div>
+                                </div>
+
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_labwork[]" value="1">
+                                        <label>Labwork</label>
+                                    </div>
+                                </div>
+
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_inventory[]" value="1">
+                                        <label>Inventory</label>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <div class="section-title">Additional Permissions</div>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Dashboard"> Dashboard
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Quikbill"> Quikbill
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Prescription"> Prescription
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Campaign"> Campaign
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Accounts"> Accounts
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Reports"> Reports
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="popup-footer">
+                            <button type="button" class="btn-cancel" onclick="closeAddDoctorModal()">Cancel</button>
+                            <button type="submit" class="save-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Show Or Add Doctors(Practicing Satff) Work Ends here -->
 
         </div>
     </main>

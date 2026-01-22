@@ -244,4 +244,57 @@ document.getElementById('notificationForm').addEventListener('submit', function(
         });
     });
 
-// All Treatment Modal Work Starts here =====================>
+// All Treatment Modal Work Ends here ======================>
+
+
+// All Category Modal Work Starts here =====================>
+
+    function openCategoryModal() {
+        document.getElementById("CategoryModal").style.display = "flex";
+    }
+
+    function closeCategoryModal() {
+        document.getElementById("CategoryModal").style.display = "none";
+    }
+
+// All Category Modal Work Ends here =======================>
+
+
+// Add Doctor Staff Modal Work Starts here =======================>
+
+    function openAddDoctorModal() {
+        document.getElementById('AddDoctorModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAddDoctorModal() {
+        document.getElementById('AddDoctorModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+        document.getElementById('addDoctorForm').reset();
+        document.getElementById('residentPermissions').style.display = 'none';
+    }
+
+    // Handle radio button change
+    document.addEventListener('DOMContentLoaded', function() {
+        const doctorTypeRadios = document.querySelectorAll('input[name="doctor_type"]');
+        const residentPermissions = document.getElementById('residentPermissions');
+        
+        doctorTypeRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Resident') {
+                    residentPermissions.style.display = 'block';
+                } else {
+                    residentPermissions.style.display = 'none';
+                }
+            });
+        });
+
+        // Handle FAQ main checkboxes toggle
+        document.querySelectorAll('.permission-header input[type="checkbox"]').forEach(headerCheckbox => {
+            headerCheckbox.addEventListener('change', function() {
+                const options = this.closest('.permission-section').querySelector('.permission-options');
+                options.style.display = this.checked ? 'block' : 'none';
+            });
+        });
+    });
+// Add Doctor Staff Modal Work Ends here =======================>

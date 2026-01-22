@@ -16,14 +16,6 @@ document.getElementById('photo').addEventListener('change', function(e) {
     }
 });
 
-// document.querySelectorAll('input[type="password"]').forEach(input => {
-//     input.insertAdjacentHTML('afterend', `
-//         <button type="button" class="password-toggle" onclick="togglePassword(this)">
-//             // <i class="fas fa-eye"></i>
-//         </button>
-//     `);
-// });
-
 function togglePassword(btn) {
     const input = btn.previousElementSibling;
     const icon = btn.querySelector('i');
