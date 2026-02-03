@@ -16,10 +16,13 @@ class DoctorsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::guard('doctors')->check()) {
-            return redirect('/clinic/doctors/login');
+        if (Auth::guard('doctors')->check()) {
+            
+            return $next($request);
         }
 
-        return $next($request);
+        // return redirect('/clinic/doctors/login');
+        // Store intended URL for redirect after login
+        return redirect('/clinic/doctors/login')->with('intended_url', $request->url());
     }
 }

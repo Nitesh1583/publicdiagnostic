@@ -240,3 +240,8 @@
     color: white !important;
     transform: translateY(-1px);
 }
+.profile-img {
+    width: 100px;
+    background: #ffffff;
+    border-radius: 10px;
+}

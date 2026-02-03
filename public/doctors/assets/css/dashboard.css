@@ -285,3 +285,34 @@
 .schedule_section-time div {
   line-height: 1.4;
 }
+
+.filter-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.clinic-select {
+    background: white;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 10px 35px 10px 12px;
+    font-size: 14px;
+    min-width: 200px;
+    cursor: pointer;
+    appearance: none;
+    background-image: none;
+}
+
+.clinic-dropdown-icon {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    color: #6c757d;
+}
+
+.clinic-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}

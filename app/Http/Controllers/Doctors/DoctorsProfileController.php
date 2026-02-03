@@ -13,9 +13,6 @@ class DoctorsProfileController extends Controller
     public function show($id)
     {
         $doctor = Doctors::findOrFail($id);
-        
-        $doctor->photo_url = $doctor->photo ? Storage::url($doctor->photo) : null;
-
         return view('doctors.doctorsprofile', compact('doctor'));
     }
 
@@ -36,7 +33,7 @@ class DoctorsProfileController extends Controller
             'contact_number' => 'required|string|max:20',
             'category' => 'required|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'current_password' => 'required_with:password',
+            'current_password' => 'required',
             'password' => 'nullable|min:8|confirmed',
         ]);
 

@@ -6,6 +6,7 @@
     <title>Settings</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('settings/assets/css/settings-style.css') }}">
     <link rel="stylesheet" href="{{ asset('settings/assets/css/cliniclist.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -109,15 +110,18 @@
             <section class="settings_section container">
                 <div class="settings_section-title">Users</div>
                 <ul class="settings_list">
-                    <a href="" onclick="openAddDoctorModal(); return false;">
-                    <li class="settings_list-item">
-                        <span>Doctors (Practicing Staff)</span>
-                        <i data-lucide="chevron-right"></i>
-                    </li></a>
-                    <li class="settings_list-item">
-                        <span>Receptionist</span>
-                        <i data-lucide="chevron-right"></i>
-                    </li>
+                    <a href="#" onclick="openAddDoctorModal();">
+                        <li class="settings_list-item">
+                            <span>Doctors (Practicing Staff)</span>
+                            <i data-lucide="chevron-right"></i>
+                        </li>
+                    </a>
+                    <a href="#" onclick="openAddReceptionistModal();">
+                        <li class="settings_list-item">
+                            <span>Receptionist</span>
+                            <i data-lucide="chevron-right"></i>
+                        </li>
+                    </a>
                 </ul>
             </section>
 
@@ -125,59 +129,49 @@
             <section class="settings_section container">
                 <div class="settings_section-title">Masters</div>
                 <ul class="settings_list">
-                    <a href="#" onclick="openTreatmentModal()">
-                        <li class="settings_list-item">
-                            <span>Treatments</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" onclick="openTreatmentModal();">
+                        <li class="settings_list-item"><span>Treatments</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <a href="#" onclick="openComplaintsModal()">
-                        <li class="settings_list-item">
-                            <span>Complaints</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" onclick="openComplaintsModal();">
+                        <li class="settings_list-item"><span>Complaints</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <a href="#" onclick="">
-                        <li class="settings_list-item">
-                            <span>Observations / Notes</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" onclick="openAddObservationsModal();">
+                        <li class="settings_list-item"> <span>Observations / Notes</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <a href="#" onclick="">
-                        <li class="settings_list-item">
-                            <span>Diagnosis</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" onclick="openAddDiagnosisModal();">
+                        <li class="settings_list-item"><span>Diagnosis</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" onclick="openAddInvestigationsModal();">
+                        <li class="settings_list-item"><span>Investigations</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
                     <a href="#" onclick="">
-                        <li class="settings_list-item">
-                            <span>Investigations</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                        <li class="settings_list-item"><span>Products</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <a href="#" onclick="">
-                        <li class="settings_list-item">
-                            <span>Products</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" onclick="openMedicinesModal();">
+                        <li class="settings_list-item"><span>Medicines</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <a href="" onclick="openMedicinesModal()">
-                        <li class="settings_list-item">
-                            <span>Medicines</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Medicine Templates</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <li class="settings_list-item"><span>Medicine Templates</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Labs / Vendors</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Medicine Instructions</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Generic Advice / Remarks</span><i data-lucide="chevron-right"></i></li>
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Labs / Vendors</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Medicine Instructions</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Generic Advice / Remarks</span><i data-lucide="chevron-right"></i></li>
+                    </a>
                 </ul>
             </section>
 
@@ -185,18 +179,21 @@
             <section class="settings_section container">
                 <div class="settings_section-title">Communications</div>
                 <ul class="settings_list">
-                    <li class="settings_list-item">
-                        <span>Patient Feedback</span>
-                        <i data-lucide="chevron-right"></i>
-                    </li>
+                    <a href="#" >
+                        <li class="settings_list-item">
+                            <span>Patient Feedback</span>
+                            <i data-lucide="chevron-right"></i>
+                        </li>
+                    </a>
                     
-                    <a href="" onclick="openNotificationModal(); return false;">
+                    <a href="#" onclick="openNotificationModal(); return false;">
                         <li class="settings_list-item">
                             <span>Notification</span>
                             <i data-lucide="chevron-right"></i>
                         </li>
                     </a>
-                    <a href="" onclick="openPatientCommModal(); return false;">
+
+                    <a href="#" onclick="openPatientCommModal(); return false;">
                         <li class="settings_list-item">
                             <span>Patient Communication</span>
                             <i data-lucide="chevron-right"></i>
@@ -210,29 +207,39 @@
                 <div class="settings_section-title">Add Ons</div>
                 <ul class="settings_list">
                     
-                    <a href="" onclick="openCategoryModal(); return false;">
-                        <li class="settings_list-item">
-                            <span>Category Master</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" onclick="openCategoryModal(); return false;">
+                        <li class="settings_list-item"><span>Category Master</span><i data-lucide="chevron-right"></i></li> 
                     </a>
 
-                    <a href="#">
-                        <li class="settings_list-item">
-                            <span>Groups</span>
-                            <i data-lucide="chevron-right"></i>
-                        </li>
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Groups</span><i data-lucide="chevron-right"></i></li>
                     </a>
 
-                    <li class="settings_list-item"><span>Taxes</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Membership Plans</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Consent Forms</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>My Rewards</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>My Devices</span><i data-lucide="chevron-right"></i></li>
-                    <li class="settings_list-item"><span>Delete Account</span><i data-lucide="chevron-right"></i></li>
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Taxes</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Membership Plans</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Consent Forms</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>My Rewards</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>My Devices</span><i data-lucide="chevron-right"></i></li>
+                    </a>
+
+                    <a href="#" >
+                        <li class="settings_list-item"><span>Delete Account</span><i data-lucide="chevron-right"></i></li>
+                    </a>
                 </ul>
             </section>
-
 
             <!-- Online Payment Pop-Up Start here -->
             <div id="paymentPopup" class="popup-container">
@@ -382,8 +389,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Clinic list Pop up start here -->
-
+            <!-- Clinic list Pop up End here -->
 
             <!-- Notification modal Starts here -->
             <div id="notificationModal" class="popup-container">
@@ -638,129 +644,68 @@
                 </div>
             </div>
 
-
-            <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Starts-->
-            <div id="TreatmentsModal" class="popup-container">
-                <div class="popup-content" style="max-width: 750px;">
+            <!-- Show or Create Category Work Starts here -->
+            <!-- Doctor/Clinic Category Modal -->
+            <div id="CategoryModal" class="popup-container">
+                <div class="popup-content" style="max-width: 650px;">
                     <div class="popup-header">
-                        <h2><i class="fas fa-user-md"></i> Treatment List</h2>
-                        <span class="close-btn" onclick="closeTreatmentModal()">&times;</span>
+                        <h2><i class="fas fa-tags"></i> Categories</h2>
+                        <span class="close-btn" onclick="closeCategoryModal()">&times;</span>
                     </div>
                     
-                    <!-- Add Treatment Form Section -->
-                    <div class="add-treatment-section">
-                        <form method="POST" action="{{ route('doctors.treatments.store') }}" class="add-treatment-form">
+                    <!-- Add Category Form -->
+                    <div class="add-category-section">
+                        <form method="POST" action="{{ route('doctors.categories.store') }}" class="add-category-form">
                             @csrf
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label>Treatment Name <span class="required">*</span></label>
-                                    <input type="text" name="treatment_name" required maxlength="150">
-                                </div>
-                                
-                                <!-- Checkbox Section -->
-                                <div class="form-group checkbox-group">
-                                    <label class="section-label">
-                                        <input type="checkbox" name="all_clinics" id="allClinics" value="1">
-                                        <span class="checkmark"></span>
-                                        Set price for All Clinics (Same price everywhere)
-                                    </label>
-                                </div>
-
+                            <div class="input-group">
+                                <input type="text" name="category_name" placeholder="Enter category name (e.g., Medicine, Tests, Consultation)" 
+                                       maxlength="100" required class="category-input">
+                                <button type="submit" class="add-btn">
+                                    <i class="fas fa-plus"></i> Add Category
+                                </button>
                             </div>
-
-                            <!-- All Clinics Pricing (SHOW when checked) -->
-                            <div id="allClinicsTreatmentPricing" class="pricing-section">
-                                <h5><i class="fas fa-clinic-medical"></i> All Clinics Pricing</h5>
-                                <div class="price-row">
-                                    <div class="form-group">
-                                        <label>Price (₹) <span class="required">*</span></label>
-                                        <input type="number" name="price" step="0.01" min="0" >
-                                    </div>
+                            @if(session('success'))
+                                <div class="success-msg">
+                                    <i class="fas fa-check-circle"></i> {{ session('success') }}
                                 </div>
-                            </div>
-
-                            <!-- Per Clinic Pricing (SHOW when NOT checked) -->
-                            <div id="perClinicPricing" class="per-clinic-section">
-                                <h5><i class="fas fa-list"></i> Per Clinic Pricing</h5>
-                                @foreach($clinics as $clinic)
-                                <div class="clinic-price-card">
-                                    <div class="clinic-header">
-                                        <i class="fas fa-clinic-medical"></i> {{ $clinic->clinic_name }}
-                                    </div>
-                                    <div class="price-inputs">
-                                        <input type="number" name="clinic_price[{{ $clinic->id }}][price]" placeholder="Price ₹" step="0.01" >
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-
-                            <!-- Additional Fields -->
-                            <div class="additional-fields">
-                                <h5><i class="fas fa-cogs"></i> Additional Details</h5>
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label>Description</label>
-                                        <textarea name="description" rows="2" maxlength="500"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Variant</label>
-                                        <input type="text" name="variant" maxlength="100">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>SAC Code</label>
-                                        <input type="text" name="sac_code" maxlength="50">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="save-btn">Add Treatment</button>
+                            @endif
                         </form>
                     </div>
-
-                    <!-- Treatment List Section -->
-                    <div class="treatment-list-section">
+                    
+                    <!-- Categories List -->
+                    <div class="categories-list-section">
                         <div class="list-header">
-                            <h4>Total: {{ count($treatments ?? []) }} Treatments</h4>
+                            <h4>Total: {{ count($categories ?? []) }} Categories</h4>
                         </div>
                         
-                        <div class="treatments-grid">
-                            @forelse($treatments ?? [] as $treatment)
-                                <div class="treatment-card">
-                                    <div class="treatment-main">
-                                        <div class="treatment-icon">
-                                            <i class="fas fa-user-md"></i>
+                        <div class="categories-grid">
+                            @forelse($categories ?? [] as $category)
+                                <div class="category-card">
+                                    <div class="category-content">
+                                        <div class="category-icon">
+                                            <i class="fas fa-tag"></i>
                                         </div>
-                                        <div class="treatment-info">
-                                            <h5>{{ $treatment->treatment_name }}</h5>
-                                            @if($treatment->description)
-                                                <p>{{ Str::limit($treatment->description, 80) }}</p>
-                                            @endif
-                                            <div class="treatment-meta">
-                                                @if($treatment->clinic_prices)
-                                                    <!-- Per Clinic Pricing -->
-                                                    <span class="price">
-                                                        <i class="fas fa-clinics"></i> 
-                                                        {{ count($treatment->clinic_prices) }} Clinics
-                                                        @foreach($treatment->clinic_prices as $clinicId => $priceData)
-                                                            @php $clinic = $clinics->find($clinicId); @endphp
-                                                            <small>
-                                                                {{ $clinic?->clinic_name ?? 'Clinic #' . $clinicId }}: ₹{{ number_format($priceData['price'], 2) }}
-                                                            </small>
-                                                        @endforeach
-                                                    </span>
-                                                @else
-                                                    <!-- All Clinics Pricing -->
-                                                    <span class="price">₹{{ number_format($treatment->price, 2) }} (All Clinics)</span>
-                                                @endif
-                                            </div>
-
+                                        <div class="category-details">
+                                            <h5>{{ $category->category_name }}</h5>
+                                            <span class="added-date">
+                                                <i class="fas fa-clock"></i> {{ $category->created_at->diffForHumans() }}
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="treatment-actions">
-                                        <form method="POST" action="{{ route('doctors.treatments.destroy', $treatment->id) }}" 
-                                              class="delete-form" onsubmit="return confirm('Delete this treatment?')">
+                                    <div class="category-actions">
+                                        <!-- Edit Form -->
+                                        <form method="POST" action="{{ route('doctors.categories.update', $category->id) }}" class="edit-form">
+                                            @csrf @method('PUT')
+                                            <input type="text" name="category_name" value="{{ $category->category_name }}" maxlength="100" required class="edit-input">
+                                            <button type="submit" class="edit-btn" title="Update">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                        <!-- Delete Form -->
+                                        <form method="POST" action="{{ route('doctors.categories.destroy', $category->id) }}" class="delete-form" 
+                                              onsubmit="return confirm('Delete {{ $category->category_name }}?')">
                                             @csrf @method('DELETE')
-                                            <button type="submit" class="delete-btn">
+                                            <button type="submit" class="delete-btn" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -769,12 +714,12 @@
                             @empty
                                 <div class="empty-state">
                                     <div class="empty-icon">
-                                        <i class="fas fa-user-md"></i>
+                                        <i class="fas fa-tags"></i>
                                     </div>
-                                    <h4>No Treatments Added</h4>
-                                    <p>Add your first treatment using the form above</p>
+                                    <h4>No Categories Added</h4>
+                                    <p>Add your first category using the form above</p>
                                     <div class="empty-hint">
-                                        <i class="fas fa-lightbulb"></i> Examples: Consultation, X-Ray, Blood Test
+                                        <i class="fas fa-lightbulb"></i> Examples: Medicine, Lab Tests, Consultation
                                     </div>
                                 </div>
                             @endforelse
@@ -782,89 +727,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Ends -->
-
-            
-            <!-- Show All Complaint Types Add by Doctor/ Clinic or Add new Complaints -->
-            <!-- Doctor Complaint Types Modal -->
-            <div id="ComplaintsModal" class="popup-container">
-                <div class="popup-content" style="max-width: 650px;">
-                    <div class="popup-header">
-                        <h2><i class="fas fa-notes-medical"></i> Complaint Types</h2>
-                        <span class="close-btn" onclick="closeComplaintsModal()">&times;</span>
-                    </div>
-                    
-                    <!-- Add Form Section -->
-                    <div class="add-complaint-section">
-                        <form method="POST" action="{{ route('doctors.complaints.store') }}" class="add-complaint-form">
-                            @csrf
-                            <div class="input-group">
-                                <input type="text" name="name" placeholder="Enter complaint type (e.g., Fever, Back Pain, Headache)" 
-                                       maxlength="100" required class="complaint-input">
-                                <button type="submit" class="add-btn">
-                                    <i class="fas fa-plus"></i> Add Complaint
-                                </button>
-                            </div>
-                            @if(session('success'))
-                                <div class="success-msg">{{ session('success') }}</div>
-                            @endif
-                        </form>
-                    </div>
-                    
-                    <!-- Complaints List Section -->
-                    <div class="complaints-list-section">
-                        <div class="complaints-header">
-                            <div class="header-left">
-                                <h4>Total: {{ $complaints->count() ?? 0 }} Complaints</h4>
-                            </div>
-                        </div>
-                        
-                        <div class="complaints-grid">
-                            @isset($complaints)
-                                @forelse($complaints as $complaint)
-                                    <div class="complaint-card">
-                                        <div class="card-content">
-                                            <div class="complaint-icon">
-                                                <i class="fas fa-notes-medical"></i>
-                                            </div>
-                                            <div class="complaint-details">
-                                                <h5>{{ $complaint->name }}</h5>
-                                                <span class="added-date">
-                                                    <i class="fas fa-clock"></i> {{ $complaint->created_at->diffForHumans() }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <form method="POST" action="{{ route('doctors.complaints.destroy', $complaint->id) }}" 
-                                              class="delete-form" onsubmit="return confirm('Delete {{ $complaint->name }}?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="delete-btn" title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                @empty
-                                    <div class="empty-state">
-                                        <div class="empty-icon">
-                                            <i class="fas fa-notes-medical"></i>
-                                        </div>
-                                        <h4>No Complaints Added Yet</h4>
-                                        <p>Start by adding your first complaint type using the form above</p>
-                                        <div class="empty-hint">
-                                            <i class="fas fa-lightbulb"></i> Common examples: Fever, Cough, Back Pain
-                                        </div>
-                                    </div>
-                                @endforelse
-                            @else
-                                <div class="empty-state">
-                                    <h4>Loading...</h4>
-                                </div>
-                            @endisset
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END Show All Complaint Types Add by Doctor/ Clinic -->
-
+            <!-- Show or Create Category Work Ends here -->
 
             <!-- Show or Create Category Work Starts here -->
             <!-- Doctor/Clinic Category Modal -->
@@ -951,10 +814,9 @@
             </div>
             <!-- Show or Create Category Work Ends here -->
 
-
             <!-- Show Or Add Doctors(Practicing Satff) Work Start here -->
-                        <div id="AddDoctorModal" class="popup-container">
-                <div class="popup-content" style="max-width: 650px;">
+            <div id="AddDoctorModal" class="popup-container">
+                <div class="popup-content" style="max-width: 750px;">
                     <div class="popup-header">
                         <h3>Add Doctor / Staff</h3>
                         <span class="close-btn" onclick="closeAddDoctorModal()">&times;</span>
@@ -1014,125 +876,175 @@
                             <div class="form-group">
                                 <label>Doctor Type <span class="required">*</span></label>
                                 <div class="radio-group">
-                                    <label class="radio-label">
+                                    <label class="radio-label add-doctors-radio">
                                         <input type="radio"  class="radio-checkmark" name="doctor_type" value="Resident" required> Resident
                                     </label>
-                                    <label class="radio-label">
+                                    <label class="radio-label add-doctors-radio">
                                         <input type="radio"  class="radio-checkmark" name="doctor_type" value="Visiting" required> Visiting
                                     </label>
                                 </div>
                             </div>
 
+                            <!-- FAQ Section Starts Here -->
                             <div id="residentPermissions" style="display: none;">
                                 <div class="section-title">FAQ Permissions</div>
                                 
+                                <!-- Patients Section -->
                                 <div class="permission-section">
                                     <div class="permission-header">
-                                        <input type="checkbox" name="faq_patients[]" value="1">
+                                        <input type="checkbox" name="faq_patients[]" value="1" class="section-main-checkbox">
                                         <label>Patients</label>
                                     </div>
-                                    <div class="permission-options" style="display: none;">
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Patient Rows -->
                                         <div class="option-row">
-                                            <div class="option-group">
-                                                <label>Patient</label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Patient][add]" value="1"> Add
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Patient][update]" value="1"> Update
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Patient][delete]" value="1"> Delete
-                                                </label>
-                                            </div>
+                                            <div class="table-cell"><strong>Patient</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Patient][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Patient][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Patient][delete]" value="1"></label>
                                         </div>
                                         <div class="option-row">
-                                            <div class="option-group">
-                                                <label>Visit/Transaction</label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Visit/Transaction][add]" value="1"> Add
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Visit/Transaction][update]" value="1"> Update
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Visit/Transaction][delete]" value="1"> Delete
-                                                </label>
-                                            </div>
+                                            <div class="table-cell">Visit/Transaction</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Visit/Transaction][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Visit/Transaction][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Visit/Transaction][delete]" value="1"></label>
                                         </div>
                                         <div class="option-row">
-                                            <div class="option-group">
-                                                <label>Prescription</label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Prescription][add]" value="1"> Add
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Prescription][update]" value="1"> Update
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Prescription][delete]" value="1"> Delete
-                                                </label>
-                                            </div>
+                                            <div class="table-cell">Prescription</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Prescription][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Prescription][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Prescription][delete]" value="1"></label>
                                         </div>
                                         <div class="option-row">
-                                            <div class="option-group">
-                                                <label>Payment</label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Payment][add]" value="1"> Add
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Payment][update]" value="1"> Update
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[Payment][delete]" value="1"> Delete
-                                                </label>
-                                            </div>
+                                            <div class="table-cell">Payment</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Payment][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Payment][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Payment][delete]" value="1"></label>
                                         </div>
                                         <div class="option-row">
-                                            <div class="option-group">
-                                                <label>Treatment Plan</label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[TreatmentPlan][add]" value="1"> Add
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[TreatmentPlan][update]" value="1"> Update
-                                                </label>
-                                                <label class="checkbox-small">
-                                                    <input type="checkbox" name="patient_permissions[TreatmentPlan][delete]" value="1"> Delete
-                                                </label>
-                                            </div>
+                                            <div class="table-cell">Treatment Plan</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[TreatmentPlan][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[TreatmentPlan][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[TreatmentPlan][delete]" value="1"></label>
                                         </div>
                                     </div>
                                 </div>
 
+                                <!-- Appointments Section -->
                                 <div class="permission-section">
                                     <div class="permission-header">
-                                        <input type="checkbox" name="faq_appointments[]" value="1">
+                                        <input type="checkbox" name="faq_appointments[]" value="1" class="section-main-checkbox">
                                         <label>Appointments</label>
                                     </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Appointment Rows -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Appointment</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Appointment][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Appointment][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Appointment][delete]" value="1"></label>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="table-cell">Schedule</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Schedule][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Schedule][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Schedule][delete]" value="1"></label>
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <!-- Billing Section -->
                                 <div class="permission-section">
                                     <div class="permission-header">
-                                        <input type="checkbox" name="faq_billing[]" value="1">
+                                        <input type="checkbox" name="faq_billing[]" value="1" class="section-main-checkbox">
                                         <label>Billing</label>
                                     </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Billing Row -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Bill</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="billing_permissions[Bill][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="billing_permissions[Bill][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="billing_permissions[Bill][delete]" value="1"></label>
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <!-- Labwork Section -->
                                 <div class="permission-section">
                                     <div class="permission-header">
-                                        <input type="checkbox" name="faq_labwork[]" value="1">
+                                        <input type="checkbox" name="faq_labwork[]" value="1" class="section-main-checkbox">
                                         <label>Labwork</label>
                                     </div>
-                                </div>
-
-                                <div class="permission-section">
-                                    <div class="permission-header">
-                                        <input type="checkbox" name="faq_inventory[]" value="1">
-                                        <label>Inventory</label>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Labwork Row -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Labwork</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="labwork_permissions[Labwork][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="labwork_permissions[Labwork][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="labwork_permissions[Labwork][delete]" value="1"></label>
+                                        </div>
                                     </div>
                                 </div>
 
+                                <!-- Inventory Section -->
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_inventory[]" value="1" class="section-main-checkbox">
+                                        <label>Inventory</label>
+                                    </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Inventory Row -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Inventory</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="inventory_permissions[Inventory][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="inventory_permissions[Inventory][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="inventory_permissions[Inventory][delete]" value="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Permissions (unchanged) -->
                                 <div class="checkbox-group">
                                     <div class="section-title">Additional Permissions</div>
                                     <label class="checkbox-label">
@@ -1155,15 +1067,712 @@
                                     </label>
                                 </div>
                             </div>
+
+                            <!-- FAQ Section Ends Here -->
+
+                            <div class="form-group">
+                                <label>User Role <span class="required">*</span></label>
+                                <select name="doctors_role" required>
+                                    <option value="">Select Role</option>
+                                        <option value="Under Graduate Student">Under Graduate Student</option>
+                                        <option value="Intern Student">Intern Student</option>
+                                        <option value="Post Graduate Student">Post Graduate Student</option>
+                                        <option value="Faculty">Faculty</option>
+                                        <option value="HOD">HOD</option>
+                                        <option value="Doctor">Doctor</option>
+                                        <option value="Visiting Consultant">Visiting Consultant</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="popup-footer">
                             <button type="button" class="btn-cancel" onclick="closeAddDoctorModal()">Cancel</button>
-                            <button type="submit" class="save-btn">Submit</button>
+                            <button type="submit" class="add-btn">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
             <!-- Show Or Add Doctors(Practicing Satff) Work Ends here -->
+
+            <!-- Show or Add Receptionist Works Starts Here  -->
+            <div id="AddReceptionistModal" class="popup-container">
+                <div class="popup-content" style="max-width: 750px;">
+                    <div class="popup-header">
+                        <h3>Add Receptionist</h3>
+                        <span class="close-btn" onclick="closeAddReceptionistModal()">&times;</span>
+                    </div>
+
+                    <form id="addReceptionistForm" action="" method="POST">
+                        @csrf
+                        <div class="popup-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name <span class="required">*</span></label>
+                                    <input type="text" name="recp_full_name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email<span class="required">*</span></label>
+                                    <input type="text" name="recp_email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Mobile No. <span class="required">*</span></label>
+                                    <input type="text" name="recp_mobile_no" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="password">Create password</label>
+                                    <input id="password" name="recp_password" type="password" required>
+
+                                    <span class="password-span">Password must be aplhanumeric and must contains special characters.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Select Clinic <span class="required">*</span></label>
+                                    <select name="clinic_id" required>
+                                        <option value="">Select Clinic</option>
+                                        @foreach($clinics as $clinic)
+                                            <option value="{{ $clinic->id }}">{{ $clinic->clinic_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>User Role <span class="required">*</span></label>
+                                    <select name="recp_role" required>
+                                        <option value="">Select Role</option>
+                                            <option value="Front Office">Front Office</option>
+                                            <option value="Assistant">Assistant</option>
+                                            <option value="Cashier">Cashier</option>
+                                            <option value="Lab Technician">Lab Technician</option>
+                                            <option value="Store Keeper">Store Keeper</option>
+                                            <option value="Manager">Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- FAQ Section Starts Here -->
+                            <div id="residentPermissions">
+                                <div class="section-title">Access (Applies to selected clinics)</div>
+                                
+                                <!-- Patients Section -->
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_patients[]" value="1" class="section-main-checkbox">
+                                        <label>Patients</label>
+                                    </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Patient Rows -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Patient</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Patient][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Patient][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Patient][delete]" value="1"></label>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="table-cell">Visit/Transaction</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Visit/Transaction][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Visit/Transaction][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Visit/Transaction][delete]" value="1"></label>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="table-cell">Prescription</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Prescription][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Prescription][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Prescription][delete]" value="1"></label>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="table-cell">Payment</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Payment][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Payment][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[Payment][delete]" value="1"></label>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="table-cell">Treatment Plan</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[TreatmentPlan][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[TreatmentPlan][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="patient_permissions[TreatmentPlan][delete]" value="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Appointments Section -->
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_appointments[]" value="1" class="section-main-checkbox">
+                                        <label>Appointments</label>
+                                    </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Appointment Rows -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Appointment</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Appointment][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Appointment][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Appointment][delete]" value="1"></label>
+                                        </div>
+                                        <div class="option-row">
+                                            <div class="table-cell">Schedule</div>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Schedule][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Schedule][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="appointment_permissions[Schedule][delete]" value="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Billing Section -->
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_billing[]" value="1" class="section-main-checkbox">
+                                        <label>Billing</label>
+                                    </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Billing Row -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Bill</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="billing_permissions[Bill][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="billing_permissions[Bill][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="billing_permissions[Bill][delete]" value="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Labwork Section -->
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_labwork[]" value="1" class="section-main-checkbox">
+                                        <label>Labwork</label>
+                                    </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Labwork Row -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Labwork</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="labwork_permissions[Labwork][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="labwork_permissions[Labwork][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="labwork_permissions[Labwork][delete]" value="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Inventory Section -->
+                                <div class="permission-section">
+                                    <div class="permission-header">
+                                        <input type="checkbox" name="faq_inventory[]" value="1" class="section-main-checkbox">
+                                        <label>Inventory</label>
+                                    </div>
+                                    <div class="permission-options">
+                                        <!-- Fixed Header Row -->
+                                        <div class="permission-table-header">
+                                            <div class="table-cell"></div>
+                                            <div class="table-cell"><strong>Add</strong></div>
+                                            <div class="table-cell"><strong>Update</strong></div>
+                                            <div class="table-cell"><strong>Delete</strong></div>
+                                        </div>
+                                        
+                                        <!-- Inventory Row -->
+                                        <div class="option-row">
+                                            <div class="table-cell"><strong>Inventory</strong></div>
+                                            <label class="table-checkbox"><input type="checkbox" name="inventory_permissions[Inventory][add]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="inventory_permissions[Inventory][update]" value="1"></label>
+                                            <label class="table-checkbox"><input type="checkbox" name="inventory_permissions[Inventory][delete]" value="1"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Permissions (unchanged) -->
+                                <div class="checkbox-group">
+                                    <div class="section-title">Additional Permissions</div>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Dashboard"> Dashboard
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Quikbill"> Quikbill
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Prescription"> Prescription
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Campaign"> Campaign
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Accounts"> Accounts
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" name="permissions[]" value="Reports"> Reports
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- FAQ Section Ends Here -->
+
+                        </div>
+                        <div class="popup-footer">
+                            <button type="button" class="btn-cancel" onclick="closeAddReceptionistModal()">Cancel</button>
+                            <button type="submit" class="add-btn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Show or Add Receptionist Works Ends Here  -->
+
+
+            <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Starts-->
+                <div id="TreatmentsModal" class="popup-container">
+                    <div class="popup-content" style="max-width: 750px;">
+                        <div class="popup-header">
+                            <h2><i class="fas fa-user-md"></i> Treatment List</h2>
+                            <span class="close-btn" onclick="closeTreatmentModal()">&times;</span>
+                        </div>
+                        
+                        <!-- Add Treatment Form Section -->
+                        <div class="add-treatment-section">
+                            <form method="POST" action="{{ route('doctors.treatments.store') }}" class="add-treatment-form">
+                                @csrf
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Treatment Name <span class="required">*</span></label>
+                                        <input type="text" name="treatment_name" required maxlength="150">
+                                    </div>
+                                    
+                                    <!-- Checkbox Section -->
+                                    <div class="form-group checkbox-group">
+                                        <label class="section-label">
+                                            <input type="checkbox" name="all_clinics" id="allClinics" value="1">
+                                            <span class="checkmark"></span>
+                                            Set price for All Clinics (Same price everywhere)
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <!-- All Clinics Pricing (SHOW when checked) -->
+                                <div id="allClinicsTreatmentPricing" class="pricing-section">
+                                    <h5><i class="fas fa-clinic-medical"></i> All Clinics Pricing</h5>
+                                    <div class="price-row">
+                                        <div class="form-group">
+                                            <label>Price (₹) <span class="required">*</span></label>
+                                            <input type="number" name="price" step="0.01" min="0" >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Per Clinic Pricing (SHOW when NOT checked) -->
+                                <div id="perClinicPricing" class="per-clinic-section">
+                                    <h5><i class="fas fa-list"></i> Per Clinic Pricing</h5>
+                                    @foreach($clinics as $clinic)
+                                    <div class="clinic-price-card">
+                                        <div class="clinic-header">
+                                            <i class="fas fa-clinic-medical"></i> {{ $clinic->clinic_name }}
+                                        </div>
+                                        <div class="price-inputs">
+                                            <input type="number" name="clinic_price[{{ $clinic->id }}][price]" placeholder="Price ₹" step="0.01" >
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Additional Fields -->
+                                <div class="additional-fields">
+                                    <h5><i class="fas fa-cogs"></i> Additional Details</h5>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea name="description" rows="2" maxlength="500"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Variant</label>
+                                            <input type="text" name="variant" maxlength="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>SAC Code</label>
+                                            <input type="text" name="sac_code" maxlength="50">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="save-btn">Add Treatment</button>
+                            </form>
+                        </div>
+
+                        <!-- Treatment List Section -->
+                        <div class="treatment-list-section">
+                            <div class="list-header">
+                                <h4>Total: {{ count($treatments ?? []) }} Treatments</h4>
+                            </div>
+                            
+                            <div class="treatments-grid">
+                                @forelse($treatments ?? [] as $treatment)
+                                    <div class="treatment-card">
+                                        <div class="treatment-main">
+                                            <div class="treatment-icon">
+                                                <i class="fas fa-user-md"></i>
+                                            </div>
+                                            <div class="treatment-info">
+                                                <h5>{{ $treatment->treatment_name }}</h5>
+                                                @if($treatment->description)
+                                                    <p>{{ Str::limit($treatment->description, 80) }}</p>
+                                                @endif
+                                                <div class="treatment-meta">
+                                                    @if($treatment->clinic_prices)
+                                                        <!-- Per Clinic Pricing -->
+                                                        <span class="price">
+                                                            <i class="fas fa-clinics"></i> 
+                                                            {{ count($treatment->clinic_prices) }} Clinics
+                                                            @foreach($treatment->clinic_prices as $clinicId => $priceData)
+                                                                @php $clinic = $clinics->find($clinicId); @endphp
+                                                                <small>
+                                                                    {{ $clinic?->clinic_name ?? 'Clinic #' . $clinicId }}: ₹{{ number_format($priceData['price'], 2) }}
+                                                                </small>
+                                                            @endforeach
+                                                        </span>
+                                                    @else
+                                                        <!-- All Clinics Pricing -->
+                                                        <span class="price">₹{{ number_format($treatment->price, 2) }} (All Clinics)</span>
+                                                    @endif
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="treatment-actions">
+                                            <form method="POST" action="{{ route('doctors.treatments.destroy', $treatment->id) }}" 
+                                                  class="delete-form" onsubmit="return confirm('Delete this treatment?')">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="delete-btn">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="empty-state">
+                                        <div class="empty-icon">
+                                            <i class="fas fa-user-md"></i>
+                                        </div>
+                                        <h4>No Treatments Added</h4>
+                                        <p>Add your first treatment using the form above</p>
+                                        <div class="empty-hint">
+                                            <i class="fas fa-lightbulb"></i> Examples: Consultation, X-Ray, Blood Test
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- Show All treamtments by Doctor/ clinic or Add new Treatments Ends -->
+            
+            <!-- Show All Complaint Types Add by Doctor/ Clinic or Add new Complaints -->
+            <!-- Doctor Complaint Types Modal -->
+            <div id="ComplaintsModal" class="popup-container">
+                <div class="popup-content" style="max-width: 650px;">
+                    <div class="popup-header">
+                        <h2><i class="fas fa-notes-medical"></i> Complaint Types</h2>
+                        <span class="close-btn" onclick="closeComplaintsModal()">&times;</span>
+                    </div>
+                    
+                    <!-- Add Form Section -->
+                    <div class="add-complaint-section">
+                        <form method="POST" action="{{ route('doctors.complaints.store') }}" class="add-complaint-form">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" name="name" placeholder="Enter complaint type (e.g., Fever, Back Pain, Headache)" 
+                                       maxlength="100" required class="complaint-input">
+                                <button type="submit" class="add-btn">
+                                    <i class="fas fa-plus"></i> Add Complaint
+                                </button>
+                            </div>
+                            @if(session('success'))
+                                <div class="success-msg">{{ session('success') }}</div>
+                            @endif
+                        </form>
+                    </div>
+                    
+                    <!-- Complaints List Section -->
+                    <div class="complaints-list-section">
+                        <div class="complaints-header">
+                            <div class="header-left">
+                                <h4>Total: {{ $complaints->count() ?? 0 }} Complaints</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="complaints-grid">
+                            @isset($complaints)
+                                @forelse($complaints as $complaint)
+                                    <div class="complaint-card">
+                                        <div class="card-content">
+                                            <div class="complaint-icon">
+                                                <i class="fas fa-notes-medical"></i>
+                                            </div>
+                                            <div class="complaint-details">
+                                                <h5>{{ $complaint->name }}</h5>
+                                                <span class="added-date">
+                                                    <i class="fas fa-clock"></i> {{ $complaint->created_at->diffForHumans() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <form method="POST" action="{{ route('doctors.complaints.destroy', $complaint->id) }}" 
+                                              class="delete-form" onsubmit="return confirm('Delete {{ $complaint->name }}?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="delete-btn" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @empty
+                                    <div class="empty-state">
+                                        <div class="empty-icon">
+                                            <i class="fas fa-notes-medical"></i>
+                                        </div>
+                                        <h4>No Complaints Added Yet</h4>
+                                        <p>Start by adding your first complaint type using the form above</p>
+                                        <div class="empty-hint">
+                                            <i class="fas fa-lightbulb"></i> Common examples: Fever, Cough, Back Pain
+                                        </div>
+                                    </div>
+                                @endforelse
+                            @else
+                                <div class="empty-state">
+                                    <h4>Loading...</h4>
+                                </div>
+                            @endisset
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END Show All Complaint Types Add by Doctor/ Clinic -->
+
+            <!-- Show or Add Observations / Notes  Works Starts Here -->
+            <div id="AddObservationsModal" class="popup-container">
+                <div class="popup-content" style="max-width: 750px;">
+                    <div class="popup-header">
+                        <h3>Add Observations/Notes</h3>
+                        <span class="close-btn" onclick="closeAddObservationsModal()">&times;</span>
+                    </div>
+
+                    <form id="addObservationsForm" action="" method="POST">
+                        @csrf
+                        <div class="popup-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Observations/Notes <span class="required">*</span></label>
+                                    <input type="text" name="observations_name" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Clinic Selection Section -->
+                            <div class="form-row">
+                                <div class="form-group" style="width: 100%;">
+                                    <label>Select Clinics <span class="required">*</span></label>
+                                    
+                                    <!-- All Clinics Checkbox -->
+                                    <div class="clinic-checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="selectAllClinics" class="all-clinics-checkbox">
+                                            <span class="checkmark"></span>
+                                            All Clinics
+                                        </label>
+                                    </div>
+
+                                    <!-- Individual Clinics Checkboxes -->
+                                    <div class="clinics-list" id="clinicsList">
+                                        @forelse($clinics as $clinic)
+                                            <div class="clinic-checkbox-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" 
+                                                           name="clinic_ids[]" 
+                                                           value="{{ $clinic->id }}" 
+                                                           class="clinic-checkbox">
+                                                    <span class="checkmark"></span>
+                                                    {{ $clinic->clinic_name }}
+                                                </label>
+                                            </div>
+                                        @empty
+                                            <p>No clinics available</p>
+                                        @endforelse
+                                    </div>
+
+                                    <!-- Hidden input to store clinic selection mode -->
+                                    <input type="hidden" name="all_clinics" id="allClinicsHidden" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup-footer">
+                            <button type="button" class="btn-cancel" onclick="closeAddObservationsModal()">Cancel</button>
+                            <button type="submit" class="add-btn">Add Observations</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Show or Add Observations / Notes  Works Ends Here -->
+
+            <!-- Show or Add Diagnosis Works Starts here -->
+            <div id="AddDiagnosisModal" class="popup-container">
+                <div class="popup-content" style="max-width: 750px;">
+                    <div class="popup-header">
+                        <h3>Add Diagnosis</h3>
+                        <span class="close-btn" onclick="closeAddDiagnosisModal()">&times;</span>
+                    </div>
+
+                    <form id="addDiagnosisForm" action="" method="POST">
+                        @csrf
+                        <div class="popup-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Diagnosis<span class="required">*</span></label>
+                                    <input type="text" name="diagnosis_name" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Clinic Selection Section -->
+                            <div class="form-row">
+                                <div class="form-group" style="width: 100%;">
+                                    <label>Select Clinics <span class="required">*</span></label>
+                                    
+                                    <!-- All Clinics Checkbox -->
+                                    <div class="clinic-checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="selectAllClinics" class="all-clinics-checkbox">
+                                            <span class="checkmark"></span>
+                                            All Clinics
+                                        </label>
+                                    </div>
+
+                                    <!-- Individual Clinics Checkboxes -->
+                                    <div class="clinics-list" id="clinicsList">
+                                        @forelse($clinics as $clinic)
+                                            <div class="clinic-checkbox-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" 
+                                                           name="clinic_ids[]" 
+                                                           value="{{ $clinic->id }}" 
+                                                           class="clinic-checkbox">
+                                                    <span class="checkmark"></span>
+                                                    {{ $clinic->clinic_name }}
+                                                </label>
+                                            </div>
+                                        @empty
+                                            <p>No clinics available</p>
+                                        @endforelse
+                                    </div>
+
+                                    <!-- Hidden input to store clinic selection mode -->
+                                    <input type="hidden" name="all_clinics" id="allClinicsHidden" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup-footer">
+                            <button type="button" class="btn-cancel" onclick="closeAddDiagnosisModal()">Cancel</button>
+                            <button type="submit" class="add-btn">Add Diagnosis</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--  Show or Add Diagnosis Works Ends Here -->
+
+
+            <!-- Show or Add Investigations Works Starts here -->
+            <div id="AddInvestigationsModal" class="popup-container">
+                <div class="popup-content" style="max-width: 750px;">
+                    <div class="popup-header">
+                        <h3>Add Investigations</h3>
+                        <span class="close-btn" onclick="closeAddInvestigationsModal()">&times;</span>
+                    </div>
+
+                    <form id="addInvestigationsForm" action="" method="POST">
+                        @csrf
+                        <div class="popup-body">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Investigations Name <span class="required">*</span></label>
+                                    <input type="text" name="investigation_name" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Clinic Selection Section -->
+                            <div class="form-row">
+                                <div class="form-group" style="width: 100%;">
+                                    <label>Select Clinics <span class="required">*</span></label>
+                                    
+                                    <!-- All Clinics Checkbox -->
+                                    <div class="clinic-checkbox-group">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="selectAllClinics" class="all-clinics-checkbox">
+                                            <span class="checkmark"></span>
+                                            All Clinics
+                                        </label>
+                                    </div>
+
+                                    <!-- Individual Clinics Checkboxes -->
+                                    <div class="clinics-list" id="clinicsList">
+                                        @forelse($clinics as $clinic)
+                                            <div class="clinic-checkbox-group">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" 
+                                                           name="clinic_ids[]" 
+                                                           value="{{ $clinic->id }}" 
+                                                           class="clinic-checkbox">
+                                                    <span class="checkmark"></span>
+                                                    {{ $clinic->clinic_name }}
+                                                </label>
+                                            </div>
+                                        @empty
+                                            <p>No clinics available</p>
+                                        @endforelse
+                                    </div>
+
+                                    <!-- Hidden input to store clinic selection mode -->
+                                    <input type="hidden" name="all_clinics" id="allClinicsHidden" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup-footer">
+                            <button type="button" class="btn-cancel" onclick="closeAddInvestigationsModal()">Cancel</button>
+                            <button type="submit" class="add-btn">Add Investigation</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Show or Add Investigations Works Ends here -->
 
         </div>
     </main>

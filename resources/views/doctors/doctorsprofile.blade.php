@@ -32,7 +32,6 @@
             </div>
 
             <div class="profile-main">
-
                 <div class="avatar-wrapper">
                     @if($doctor->photo && !empty($doctor->photo))
                         <img src="{{ $doctor->photo_url ?? asset('storage/' . $doctor->photo) }}" 
@@ -46,7 +45,6 @@
                         <i class="fas fa-user-md"></i>
                     </div>
                 </div>
-
 
                 <div class="doctor-info">
                     <h2>{{ $doctor->doctor_name }}</h2>

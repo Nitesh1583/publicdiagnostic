@@ -5,7 +5,13 @@
     <title>Clinic Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('doctors/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('doctors/assets/css/style.css') }}?v={{ time() }}">
+
+    <link rel="prefetch" href="{{ route('doctors.dashboard') }}">
+    <link rel="prefetch" href="{{ route('doctor.register.create') }}">
+
+    <link rel="prefetch" href="{{ asset('doctors/assets/css/dashboard.css') }}" as="style">
+    <link rel="prefetch" href="{{ asset('doctors/assets/js/dashboard.js') }}" as="script">
 </head>
 <body>
 <div class="wrapper">

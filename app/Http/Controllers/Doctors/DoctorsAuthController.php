@@ -20,21 +20,21 @@ class DoctorsAuthController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'business_category'=> 'required|string|max:255',
+            'business_category' => 'required|string|max:255',
             'doctor_name'       => 'required|string|max:255',
             'email'             => 'required|email|max:255|unique:doctors,email',
-            'password'         => 'required|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|confirmed',
+            'password'          => 'required|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|confirmed',
             'contact_number'    => 'required|string|max:20',
             'category'          => 'required|string|max:255',
         ]);
 
         Doctors::create([
-            'business_category'    => $request->business_category,
-            'doctor_name'    => $request->doctor_name,
-            'email'          => $request->email,
-            'password'       => Hash::make($request->password),
-            'contact_number' => $request->contact_number,
-            'category'       => $request->category,
+            'business_category'     => $request->business_category,
+            'doctor_name'           => $request->doctor_name,
+            'email'                 => $request->email,
+            'password'              => Hash::make($request->password),
+            'contact_number'        => $request->contact_number,
+            'category'              => $request->category,
         ]);
 
         return redirect()->route('doctors.login.show')
@@ -45,6 +45,11 @@ class DoctorsAuthController extends Controller
     // DOCTORS LOGIN PAGE VIEW FUNCTION ===========>
     public function showLoginForm()
     {
+        // If user is already authenticated, redirect to dashboard
+        if (Auth::guard('doctors')->check()) {
+            return redirect()->route('doctors.dashboard');
+        }
+
         return view('doctors.auth.login');
     }
 
@@ -58,7 +63,11 @@ class DoctorsAuthController extends Controller
 
         if (Auth::guard('doctors')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('doctors.dashboard');
+            $intended = $request->session()->get('url.intended') ?? 
+                   session('intended_url') ?? 
+                   route('doctors.dashboard');
+                   
+            return redirect()->to($intended);
         }
 
         return back()->withErrors([

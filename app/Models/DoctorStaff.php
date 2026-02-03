@@ -18,6 +18,7 @@ class DoctorStaff extends Model
         'email',
         'clinic_id',
         'doctor_type',
+        'doctors_role',
         'faq_permissions',
         'permissions'
     ];

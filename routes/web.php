@@ -148,12 +148,10 @@ Route::prefix('clinic/doctors')->group(function () {
         Route::post('/complaints', [SettingsController::class, 'storeComplaint'])->name('doctors.complaints.store');
         Route::delete('/complaints/{id}', [SettingsController::class, 'destroyComplaint'])->name('doctors.complaints.destroy');
 
-
         // Treatment Routes
         Route::get('/treatments', [SettingsController::class, 'treatments'])->name('doctors.treatments');
         Route::post('/treatments', [SettingsController::class, 'storeTreatment'])->name('doctors.treatments.store');
         Route::delete('/treatments/{id}', [SettingsController::class, 'destroyTreatment'])->name('doctors.treatments.destroy');
-
 
         // Category Routes
         Route::get('/categories', [SettingsController::class, 'categories'])->name('doctors.categories');
@@ -161,9 +159,11 @@ Route::prefix('clinic/doctors')->group(function () {
         Route::put('/categories/{category}', [SettingsController::class, 'updateCategory'])->name('doctors.categories.update');
         Route::delete('/categories/{category}', [SettingsController::class, 'destroyCategory'])->name('doctors.categories.destroy');
 
+
         // Add Doctor Staff
         Route::post('/add/staff', [SettingsController::class, 'storeDoctorStaff'])->name('doctorstaff.store');
 
+        //
     });
 
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Patient;
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
 use App\Models\Doctors;
+use App\Models\Clinic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -13,27 +14,40 @@ class PatientController extends Controller
     public function create()
     {
         $doctor = auth('doctors')->user();
-        $clinics = Doctors::where('id', $doctor->id)->pluck('clinic_name', 'clinic_name');
+        
+        $clinics = Clinic::where('doctor_id', $doctor->id)->pluck('clinic_name', 'id'); 
+
+        // Get clinic prefix and sequence settings
+        $clinic = Clinic::where('doctor_id', $doctor->id)->first(); // Get first/default clinic
+        $clinicsPrefixFirst = $clinic ? $clinic->auto_gen_patient_prefix : null;
+        $clinicsPrefixSecond = $clinic ? $clinic->auto_gen_patient_seq_no : null;
 
         // Smart prefix: Clinic name first → fallback to Doctor name
-        $prefix = $this->generateSmartPrefix($doctor);
+        $prefix = $clinicsPrefixFirst ?? $this->generateSmartPrefix($doctor);
         $auto_patient_id = $this->generateNextPatientId($prefix);
         
-        return view('doctors.patients.add-patients', compact('clinics', 'doctor', 'auto_patient_id'));
+        return view('doctors.patients.add-patients', compact('clinics', 'doctor', 'auto_patient_id', 
+            'clinicsPrefixFirst'));
     }
 
     private function generateSmartPrefix($doctor)
     {
         // 1. Try clinic name first (first 3 letters)
-        if (!empty($doctor->clinic_name)) {
-            $clinic_prefix = $this->cleanName($doctor->clinic_name);
-            if (strlen($clinic_prefix) >= 2) {
-                return substr($clinic_prefix, 0, 3) . '_';
-            }
+        // if (!empty($doctor->clinic_name)) {
+        //     $clinic_prefix = $this->cleanName($doctor->clinic_name);
+        //     if (strlen($clinic_prefix) >= 2) {
+        //         return substr($clinic_prefix, 0, 3) . '_';
+        //     }
+        // }
+
+        // Fallback if no clinic prefix
+        if (!empty($doctor->business_category)) { // Updated from clinic_name
+            $prefix = $this->cleanName($doctor->business_category);
+            return substr($prefix, 0, 3) . '_';
         }
-        
+
         // 2. Fallback to doctor name (first 3 letters)
-        $doctor_prefix = $this->cleanName($doctor->name ?? 'doctor');
+        $doctor_prefix = $this->cleanName($doctor->doctor_name);
         return substr($doctor_prefix, 0, 3) . '_';
     }
 
@@ -63,7 +77,10 @@ class PatientController extends Controller
 
         // Auto-generate Patient ID if empty
         if (empty($request->patient_id)) {
-            $prefix = $this->generateSmartPrefix($doctor);
+            $clinic = Clinic::where('doctor_id', $doctor->id)->first();
+            // $prefix = $this->generateSmartPrefix($doctor);
+            $prefix = $clinic->auto_gen_patient_prefix ?? $this->generateSmartPrefix($doctor);
+
             $request->merge(['patient_id' => $this->generateNextPatientId($prefix)]);
         }
         
@@ -156,8 +173,32 @@ class PatientController extends Controller
             ->with('success', 'Patient added successfully!');
     }
 
+    //new
+    public function generatePatientId($clinicName, $doctorId)
+    {
+        $doctor = Doctors::findOrFail($doctorId);
+        
+        // Find clinic by name (or use clinic_id if you change select value)
+        $clinic = Clinic::where('doctor_id', $doctorId)
+                       ->where('clinic_name', $clinicName)
+                       ->first();
+        
+        // Get prefix from clinic or generate from clinic name
+        $prefix = $clinic ? $clinic->auto_gen_patient_prefix : $this->cleanName($clinicName);
+        if (!$prefix) {
+            $prefix = substr($this->cleanName($clinicName), 0, 3) . '_';
+        }
+        
+        $nextId = $this->generateNextPatientId($prefix);
+        
+        return response()->json([
+            'success' => true,
+            'patient_id' => $nextId
+        ]);
+    }
 
-   public function patientsList(Request $request)
+
+    public function patientsList(Request $request)
     {
         $doctor = auth('doctors')->user();
         
@@ -188,6 +229,4 @@ class PatientController extends Controller
 
         return view('doctors.patients.patient-list', compact('patients', 'doctor', 'request'));
     }
-
-
 }

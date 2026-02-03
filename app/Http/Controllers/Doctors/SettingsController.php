@@ -21,7 +21,13 @@ class SettingsController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->get();
         $complaints = ComplaintType::where('doctor_id', $doctor->id)->get();
-        $treatments = Treatment::where('doctor_id', $doctor->id)->get(); // Add this!
+        $treatments = Treatment::where('doctor_id', $doctor->id)->get();
+        // $doctors = DoctorStaff::where('clinic_id', $clinics->pluck('id')->toArray())
+        //                  ->with('clinic')
+        //                  ->get();
+
+        //                  var_dump($doctors);
+        //                  die();
 
         return view('doctors.settings.index', compact( 'doctor', 'clinics', 'complaints', 'treatments'));
     }
@@ -322,10 +328,11 @@ class SettingsController extends Controller
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'practicing_category' => 'required|string|max:100',
-            'mobile_no' => 'required|digits:10|unique:doctors,mobile_no',
+            'mobile_no' => 'required|digits:10',
             'email' => 'required|email|unique:doctors,email',
             'clinic_id' => 'required|exists:clinics,id',
             'doctor_type' => 'required|in:Resident,Visiting',
+            'doctors_role' => 'required|string|max:100'
         ]);
 
         $permissions = [];
@@ -353,5 +360,22 @@ class SettingsController extends Controller
     }
 
     // Add Doctors(Practicing staff) works Ends here =======================>
+
+
+    // Add Receptionist Works Starts here ==================================>
+
+    public function storeReceptionist(){
+
+        $validated = $request->validate([
+            'recp_full_name' => 'required|string|max:100',
+            'recp_email' => 'required|string|max:100',
+            'recp_mobile_no' => 'required|string|max:100',
+            'recp_password' => 'required|min:8|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/|confirmed',
+            'clinic_id' => 'required|exists:clinics,id',
+            'recp_role' => 'required|string|max:100'
+        ]);
+    }
+
+    // Add Receptionist Works Ends here ====================================>
 
 }

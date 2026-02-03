@@ -56,17 +56,14 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Patient ID <span class="text-info">Auto-generated</span></label>
-                            <input type="text" 
-                                   name="patient_id" 
-                                   class="form-control bg-light" 
-                                   value="{{ $auto_patient_id ?? old('patient_id') }}" 
-                                   readonly 
-                                   title="Auto-generated from clinic/doctor name">
-                            <!-- <small class="text-muted">
-                                {{ isset($auto_patient_id) ? 'Prefix: ' . substr($auto_patient_id, 0, strpos($auto_patient_id, '_')) : '' }}
-                            </small> -->
-                            @error('patient_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            <label>Clinic Name <span class="text-danger">*</span></label>
+                            <select name="clinic_name" class="form-control clinic-select" required>
+                                <option value="">Select Clinic</option>
+                                @foreach($clinics as $clinic)
+                                    <option value="{{ $clinic }}" {{ old('clinic_name') == $clinic ? 'selected' : '' }}>{{ $clinic }}</option>
+                                @endforeach
+                            </select>
+                            @error('clinic_name') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
                         
                         <div class="form-group">
@@ -83,14 +80,15 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Clinic Name <span class="text-danger">*</span></label>
-                            <select name="clinic_name" class="form-control clinic-select" required>
-                                <option value="">Select Clinic</option>
-                                @foreach($clinics as $clinic)
-                                    <option value="{{ $clinic }}" {{ old('clinic_name') == $clinic ? 'selected' : '' }}>{{ $clinic }}</option>
-                                @endforeach
-                            </select>
-                            @error('clinic_name') <div class="text-danger">{{ $message }}</div> @enderror
+                            <label>Patient ID <span class="text-info">Auto-generated</span></label>
+                            <input type="text" 
+                                   name="patient_id" 
+                                   class="form-control bg-light patient-id-input" 
+                                   value="{{ $auto_patient_id ?? old('patient_id') }}" 
+                                   readonly
+                                   placeholder="Select clinic to generate ID">
+                            <small class="text-muted">Changes with clinic selection</small>
+                            @error('patient_id') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
 
@@ -274,5 +272,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('patients/assets/js/patients.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const clinicSelect = document.querySelector('.clinic-select');
+            const patientIdInput = document.querySelector('.patient-id-input');
+            
+            // Get clinic prefixes from Laravel (passed via PHP)
+            const clinicPrefixes = @json($clinicPrefixes);
+            
+            clinicSelect.addEventListener('change', function() {
+                const selectedClinic = this.value;
+                
+                if (selectedClinic && clinicPrefixes[selectedClinic]) {
+                    // Use clinic's actual prefix + 001
+                    const prefix = clinicPrefixes[selectedClinic];
+                    patientIdInput.value = prefix + '001';
+                } else {
+                    // Fallback if no prefix
+                    patientIdInput.value = 'Select clinic first';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

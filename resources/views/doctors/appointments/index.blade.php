@@ -91,11 +91,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function bookAppointment(date) {
-            if (confirm('Book new appointment for ' + new Date(date).toLocaleDateString('en-IN') + '?')) {
+            // if (confirm('Book new appointment for ' + new Date(date).toLocaleDateString('en-IN') + '?')) {
                 
                 // window.location.href = `/doctors/appointments/create?date=${date}`;
                 window.location.href = "{{ route('doctors.appointments.create')}}";
-            }
+            // }
         }
 
         function changeMonth(direction) {

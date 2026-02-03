@@ -11,6 +11,11 @@
 </head>
 <body>
     <div class="patients-container">
+
+        <a href="{{ route('doctors.dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to dashboard
+        </a>
+        
         <!-- Header -->
         <div class="page-header">
             <div class="row align-items-center">

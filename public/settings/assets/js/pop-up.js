@@ -259,7 +259,6 @@ document.getElementById('notificationForm').addEventListener('submit', function(
 
 // All Category Modal Work Ends here =======================>
 
-
 // Add Doctor Staff Modal Work Starts here =======================>
 
     function openAddDoctorModal() {
@@ -288,13 +287,85 @@ document.getElementById('notificationForm').addEventListener('submit', function(
                 }
             });
         });
-
-        // Handle FAQ main checkboxes toggle
-        document.querySelectorAll('.permission-header input[type="checkbox"]').forEach(headerCheckbox => {
-            headerCheckbox.addEventListener('change', function() {
-                const options = this.closest('.permission-section').querySelector('.permission-options');
-                options.style.display = this.checked ? 'block' : 'none';
+        document.querySelectorAll('.permission-header').forEach(header => {
+            header.addEventListener('change', function() {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                const options = this.nextElementSibling;
+                options.style.display = checkbox.checked ? 'block' : 'none';
             });
         });
     });
+
 // Add Doctor Staff Modal Work Ends here =======================>
+
+// Add Receptionist Modal Work Starts Here =======================>
+    function openAddReceptionistModal() {
+        document.getElementById('AddReceptionistModal').style.display = 'flex';
+    }
+
+    function closeAddReceptionistModal() {
+        document.getElementById('AddReceptionistModal').style.display = 'none';
+    }
+    
+
+// Add Receptionist Modal Work Ends Here =========================>
+
+// Add Investigations Modal Work Starts Here =======================>
+function openAddInvestigationsModal() {
+        document.getElementById('AddInvestigationsModal').style.display = 'flex';
+    }
+
+function closeAddInvestigationsModal() {
+        document.getElementById('AddInvestigationsModal').style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('selectAllClinics');
+    const clinicCheckboxes = document.querySelectorAll('.clinic-checkbox');
+    const allClinicsHidden = document.getElementById('allClinicsHidden');
+    
+    // All Clinics - Check All
+    selectAllCheckbox.addEventListener('change', function() {
+        clinicCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        allClinicsHidden.value = this.checked ? '1' : '0';
+    });
+    
+    // Individual Clinic Checkboxes - Update All Clinics status
+    clinicCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const allChecked = Array.from(clinicCheckboxes).every(cb => cb.checked);
+            const noneChecked = Array.from(clinicCheckboxes).every(cb => !cb.checked);
+            
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
+            
+            // Set hidden value: 1 = all clinics, 0 = specific clinics
+            allClinicsHidden.value = allChecked ? '1' : '0';
+        });
+    });
+});
+// Add Investigations Modal Work Ends Here =======================>
+
+
+// Add Observations Modal Work Starts Here =======================>
+function openAddObservationsModal() {
+        document.getElementById('AddObservationsModal').style.display = 'flex';
+    }
+
+function closeAddObservationsModal() {
+        document.getElementById('AddObservationsModal').style.display = 'none';
+    }
+// Add Observations Modal Work Ends Here =======================>
+
+
+// Add Diagnosis Modal Work Starts Here =======================>
+function openAddDiagnosisModal() {
+        document.getElementById('AddDiagnosisModal').style.display = 'flex';
+    }
+
+function closeAddDiagnosisModal() {
+        document.getElementById('AddDiagnosisModal').style.display = 'none';
+    }
+// Add Diagnosis Modal Work Ends Here =======================>

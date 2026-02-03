@@ -579,12 +579,6 @@ function isReadOnlyTab($tab, $steps, $currentStep) {
                         <button type="submit" class="save-btn mt-4">Save</button>
                     @endif
 
-                   @if($clinic && session('clinic_step') !== 'setup')
-                        <div class="mb-3 text-end">
-                             <button type="button" class="edit-btn" onclick="enableEdit('setup')">
-                                Edit </button>
-                        </div>
-                    @endif
                 </form>        
             </div>
 
@@ -609,12 +603,6 @@ function isReadOnlyTab($tab, $steps, $currentStep) {
                         <button type="submit" class="save-btn">Save</button>
                     @endif
 
-                    @if($clinic && session('clinic_step') !== 'picture')
-                        <div class="mb-3 text-end">
-                            <button type="button" class="edit-btn" onclick="enableEdit('picture')">
-                                Edit </button>
-                        </div>
-                    @endif
                 </form>
             </div>
 
@@ -635,14 +623,6 @@ function isReadOnlyTab($tab, $steps, $currentStep) {
                     
                     @if(!$servicesReadonly)
                         <button type="submit" class="save-btn">Save</button>
-                    @endif
-
-
-                    @if($clinic && session('clinic_step') !== 'services')
-                        <div class="mb-3 text-end">
-                            <button type="button" class="edit-btn" onclick="enableEdit('services')">
-                                Edit </button>
-                        </div>
                     @endif
 
                 </form>
@@ -672,7 +652,6 @@ function isReadOnlyTab($tab, $steps, $currentStep) {
     @endif
 
     <script src="{{ asset('settings/assets/js/clinicAddScript.js') }}"></script>
-
 
 </body>
 </html>

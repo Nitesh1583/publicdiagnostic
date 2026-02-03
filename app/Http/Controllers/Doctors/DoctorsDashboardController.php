@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Doctors;
 use App\Http\Controllers\Controller;
 use App\Models\Doctors;
 use App\Models\Patient;
+use App\Models\Clinic;
 use App\Models\Appointment; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,9 @@ class DoctorsDashboardController extends Controller
     public function index()
     {
         $doctor = auth('doctors')->user();
+
+        // Set default to previous month, current, or any specific
+        $defaultFilterDate = now()->subMonth()->format('Y-m-d'); // Last month
 
         // Query recent appointments (last 30 days) grouped by status
         $appointmentsByStatus = [
@@ -51,6 +55,8 @@ class DoctorsDashboardController extends Controller
                 ->get()
         ];
         
+        $clinicCount = Clinic::where('doctor_id', $doctor->id)->count();
+
         // Counts for tab headers
         $counts = [
             'appointments_count' => $appointmentsByStatus['appointments']->count(),
@@ -58,6 +64,10 @@ class DoctorsDashboardController extends Controller
             'engaged_count' => $appointmentsByStatus['engaged']->count(),
             'completed_count' => $appointmentsByStatus['completed']->count()
         ];
+
+        $clinics = Clinic::where('doctor_id', $doctor->id)
+                    ->orderBy('clinic_name', 'asc')
+                    ->get(['id', 'clinic_name']);
     
         //  Total Patients Count
         $total_patients = Patient::where('doctor_id', $doctor->id)->count();
@@ -73,7 +83,10 @@ class DoctorsDashboardController extends Controller
             'appointmentsByStatus', 
             'counts',
             'new_patients', 
-            'total_patients'
+            'total_patients',
+            'clinicCount',
+            'clinics' ,
+            'defaultFilterDate'
         ));
     }
 }

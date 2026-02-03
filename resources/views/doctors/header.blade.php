@@ -71,20 +71,26 @@
       </li>
     </a>
 
-    <li>
-      <i data-lucide="users"></i>
-      <span>Refer and Earn</span>
-    </li>
+    <a href="#">
+      <li>
+        <i data-lucide="users"></i>
+        <span>Refer and Earn</span>
+      </li>
+    </a>
 
-    <li>
-      <i data-lucide="gift"></i>
-      <span>My Rewards</span>
-    </li>
+    <a href="#">
+      <li>
+        <i data-lucide="gift"></i>
+        <span>My Rewards</span>
+      </li>
+    </a>
 
-    <li>
-      <i data-lucide="share-2"></i>
-      <span>Share</span>
-    </li>
+    <a href="#">
+      <li>
+        <i data-lucide="share-2"></i>
+        <span>Share</span>
+      </li>
+    </a>
 
     <a href="#">
       <li>
@@ -93,10 +99,12 @@
       </li>
     </a>
     
-    <li>
-      <i data-lucide="shield"></i>
-      <span>Privacy Policy</span>
-    </li>
+    <a href="#">
+      <li>
+        <i data-lucide="shield"></i>
+        <span>Privacy Policy</span>
+      </li>
+    </a>
 
     <a href="#">
       <li>
